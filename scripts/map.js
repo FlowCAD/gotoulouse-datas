@@ -11,6 +11,16 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=p
     id: 'mapbox.streets'
 }).addTo(mymap);
 
+//Ajoute plusieurs fonds de plan
+/*var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+        'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+    mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw';
+
+var grayscale   = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
+    satellite  = L.tileLayer(mbUrl, {id: 'mapbox.satellite',   attribution: mbAttr});*/
+
+
 
 //Ajoute un marker sur le lieu de travail...
 var marker = L.marker([44.805458, -0.559889]).addTo(mymap);
@@ -31,3 +41,26 @@ function onMapClick(e) {
 }
 
 mymap.on('click', onMapClick);
+
+
+//Ajouter des GeoJSON
+var ZonesFinesStyle = {
+    "color": "#ff7800",
+    "weight": 5,
+    "opacity": 0.7,
+    "fill": false
+};
+L.geoJson(ZonesFines, {style: ZonesFinesStyle}).addTo(mymap);
+L.geoJson(ZonesFines, {
+    onEachFeature: function (feature, layer) {
+		layer.bindPopup("<b>" + feature.properties.NOMCOMMUNE + " (" + feature.properties.CODEINSEE + ")</b><br />Commentaire : " + feature.properties.COMMENT);
+    }
+}).addTo(mymap);
+
+
+/*L.geoJson(ZonesLarges).addTo(mymap);
+L.geoJson(ZonesLarges, {
+    onEachFeature: function (feature, layer) {
+		layer.bindPopup("<b>" + feature.properties.NOMCOMMUNE + " (" + feature.properties.CODEINSEE + ")</b><br />Population : " + feature.properties.POPULATION + " personnes<br />Date de recensement : " + feature.properties.DATERECENS);
+    }
+}).addTo(mymap);*/
