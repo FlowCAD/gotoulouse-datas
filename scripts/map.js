@@ -1,36 +1,73 @@
-//Déclare la map
-var mymap = L.map('mapId').setView([44.83688, -0.57129], 12);
-
-
-//Ajoute un fond de plan
-L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
-    maxZoom: 18,
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-        'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-    id: 'mapbox.streets'
-}).addTo(mymap);
-
-//Ajoute plusieurs fonds de plan
-/*var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+// Background layers
+var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
         '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
         'Imagery © <a href="http://mapbox.com">Mapbox</a>',
     mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw';
 
 var grayscale   = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
-    satellite  = L.tileLayer(mbUrl, {id: 'mapbox.satellite',   attribution: mbAttr});*/
+    satellite  = L.tileLayer(mbUrl, {id: 'mapbox.satellite',   attribution: mbAttr}),
+    streets  = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr});
 
+// Markers
+var jobMarker = L.marker([44.805458, -0.559889]).bindPopup("<b>Travail</b><br>Lieu de travail actuel");
 
+// Map's properties
+var mymap = L.map('mapId', {
+    center: [44.83688, -0.57129],
+    zoom: 12,
+    layers: [streets, jobMarker]
+});
 
-//Ajoute un marker sur le lieu de travail...
-var marker = L.marker([44.805458, -0.559889]).addTo(mymap);
+// Styles
+var ZonesFinesStyle = {
+    "color": "#ff7800",
+    "weight": 5,
+    "opacity": 0.65
+};
 
+var ZonesLargesStyle = {
+    "color": "#0000FF",
+    "weight": 5,
+    "opacity": 0.35
+};
 
-//... et la popup associée
-marker.bindPopup("<b>Travail</b><br>Lieu de travail actuel").openPopup();
+// JSONs
+var ZonesLargesJson = L.geoJson(
+    ZonesLarges, {
+        style: ZonesLargesStyle,
+        onEachFeature: function (feature, layer) {
+            layer.bindPopup("<b>" + feature.properties.NOMCOMMUNE + " (" + feature.properties.CODEINSEE + ")</b><br />Population : " + feature.properties.POPULATION + " personnes<br />Date de recensement : " + feature.properties.DATERECENS);
+        }
+    }
+).addTo(mymap);
 
+var ZonesFinesJson = L.geoJson(
+    ZonesFines, {
+        style: ZonesFinesStyle,
+        onEachFeature: function (feature, layer) {
+    		layer.bindPopup("<b>" + feature.properties.NOMCOMMUNE + " (" + feature.properties.CODEINSEE + ")</b><br />Commentaire : " + feature.properties.COMMENT);
+        }
+    }
+).addTo(mymap);
 
-//Evénement de click sur la map
+// Basemaps for control
+var baseMaps = {
+    "Grayscale": grayscale,
+    "Streets": streets,
+    "Satellite": satellite
+};
+
+// Layers for control
+var overlayMaps = {
+    "Job": jobMarker,
+    "ZonesLarges": ZonesLargesJson,
+    "ZonesFines": ZonesFinesJson
+};
+
+// Controler
+L.control.layers(baseMaps, overlayMaps).addTo(mymap);
+
+// Event on the map
 var popup = L.popup();
 
 function onMapClick(e) {
@@ -41,26 +78,3 @@ function onMapClick(e) {
 }
 
 mymap.on('click', onMapClick);
-
-
-//Ajouter des GeoJSON
-var ZonesFinesStyle = {
-    "color": "#ff7800",
-    "weight": 5,
-    "opacity": 0.7,
-    "fill": false
-};
-L.geoJson(ZonesFines, {style: ZonesFinesStyle}).addTo(mymap);
-L.geoJson(ZonesFines, {
-    onEachFeature: function (feature, layer) {
-		layer.bindPopup("<b>" + feature.properties.NOMCOMMUNE + " (" + feature.properties.CODEINSEE + ")</b><br />Commentaire : " + feature.properties.COMMENT);
-    }
-}).addTo(mymap);
-
-
-/*L.geoJson(ZonesLarges).addTo(mymap);
-L.geoJson(ZonesLarges, {
-    onEachFeature: function (feature, layer) {
-		layer.bindPopup("<b>" + feature.properties.NOMCOMMUNE + " (" + feature.properties.CODEINSEE + ")</b><br />Population : " + feature.properties.POPULATION + " personnes<br />Date de recensement : " + feature.properties.DATERECENS);
-    }
-}).addTo(mymap);*/
