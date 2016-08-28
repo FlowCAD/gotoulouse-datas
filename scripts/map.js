@@ -8,8 +8,10 @@ var grayscale   = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
     satellite  = L.tileLayer(mbUrl, {id: 'mapbox.satellite',   attribution: mbAttr}),
     streets  = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr});
 
+
 // Markers
 var jobMarker = L.marker([44.805458, -0.559889]).bindPopup("<b>Travail</b><br>Lieu de travail actuel");
+
 
 // Map's properties
 var mymap = L.map('mapId', {
@@ -17,6 +19,7 @@ var mymap = L.map('mapId', {
     zoom: 12,
     layers: [streets, jobMarker]
 });
+
 
 // Styles
 var ZonesFinesStyle = {
@@ -31,9 +34,11 @@ var ZonesLargesStyle = {
     "opacity": 0.35
 };
 
+
 // JSONs
 var ZonesLargesJson = L.geoJson(
-    ZonesLarges, {
+    ZonesLarges,
+    {
         style: ZonesLargesStyle,
         onEachFeature: function (feature, layer) {
             layer.bindPopup("<b>" + feature.properties.NOMCOMMUNE + " (" + feature.properties.CODEINSEE + ")</b><br />Population : " + feature.properties.POPULATION + " personnes<br />Date de recensement : " + feature.properties.DATERECENS);
@@ -42,7 +47,8 @@ var ZonesLargesJson = L.geoJson(
 ).addTo(mymap);
 
 var ZonesFinesJson = L.geoJson(
-    ZonesFines, {
+    ZonesFines,
+    {
         style: ZonesFinesStyle,
         onEachFeature: function (feature, layer) {
     		layer.bindPopup("<b>" + feature.properties.NOMCOMMUNE + " (" + feature.properties.CODEINSEE + ")</b><br />Commentaire : " + feature.properties.COMMENT);
@@ -50,25 +56,36 @@ var ZonesFinesJson = L.geoJson(
     }
 ).addTo(mymap);
 
+
 // Basemaps for control
 var baseMaps = {
-    "Grayscale": grayscale,
-    "Streets": streets,
+    "Plan gris": grayscale,
+    "Plan": streets,
     "Satellite": satellite
 };
 
 // Layers for control
 var overlayMaps = {
     "Job": jobMarker,
-    "ZonesLarges": ZonesLargesJson,
-    "ZonesFines": ZonesFinesJson
+    "Zones Larges": ZonesLargesJson,
+    "Zones Fines": ZonesFinesJson
 };
+
 
 // Controler
 L.control.layers(baseMaps, overlayMaps).addTo(mymap);
 
+
+// Geocorder OpenStreetMap
+new L.Control.GeoSearch({
+    provider: new L.GeoSearch.Provider.OpenStreetMap(),
+    retainZoomLevel: false,
+    showMarker: true
+}).addTo(mymap);
+
+
 // Event on the map
-var popup = L.popup();
+/*var popup = L.popup();
 
 function onMapClick(e) {
     popup
@@ -77,4 +94,4 @@ function onMapClick(e) {
         .openOn(mymap);
 }
 
-mymap.on('click', onMapClick);
+mymap.on('click', onMapClick);*/
