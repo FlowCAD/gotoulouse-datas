@@ -6,3 +6,13 @@ body {
 html, body, #mapId {
     height: 100%;
 }
+
+#cityChoice {
+    z-index: 10000;
+    bottom: 5px;
+    left: 5px;
+    position: absolute;
+    background-color:rgba(163, 194, 194, 0.5);
+    border-left: 2px solid blue;
+    border-radius: 5px;
+}

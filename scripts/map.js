@@ -11,13 +11,14 @@ var grayscale   = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
 
 // Markers
 var jobMarker = L.marker([44.805458, -0.559889]).bindPopup("<b>Travail</b><br>Lieu de travail actuel");
+var potentialJobMarker = L.marker([43.553609, 1.485198]).bindPopup("<b>Travail</b><br>Lieu de travail potentiel");
 
 
 // Map's properties
 var mymap = L.map('mapId', {
     center: [44.83688, -0.57129],
     zoom: 12,
-    layers: [streets, jobMarker]
+    layers: [streets, jobMarker, potentialJobMarker]
 });
 
 
@@ -67,6 +68,7 @@ var baseMaps = {
 // Layers for control
 var overlayMaps = {
     "Job": jobMarker,
+	"Job potentiel": potentialJobMarker,
     "Zones Larges": ZonesLargesJson,
     "Zones Fines": ZonesFinesJson
 };
@@ -82,6 +84,30 @@ new L.Control.GeoSearch({
     retainZoomLevel: false,
     showMarker: true
 }).addTo(mymap);
+
+
+// Pan to another city
+var cityToChoose = document.forms["cityChoiceForm"].elements["city"];
+
+cityToChoose[0].onclick = function() {
+    mymap.setView(
+        new L.LatLng(44.83688, -0.57129),
+        12,
+        {
+            animate: true
+        }
+    );
+};
+
+cityToChoose[1].onclick = function() {
+    mymap.setView(
+        new L.LatLng(43.599560, 1.441079),
+        12,
+        {
+            animate: true
+        }
+    );
+};
 
 
 // Event on the map
