@@ -1,5 +1,5 @@
 /*jslint node: true*/
-/*global L*/
+/*global L, zonesLargesBDX, zonesFinesBDX, zonesLargesTLS*/
 "use strict";
 
 // Background layers
@@ -32,34 +32,34 @@ var mymap = L.map('mapId', {
 // Styles
 var zonesFinesStyle = {
     "color": "#ff7800",
-    "weight": 5,
+    "weight": 2,
     "opacity": 0.65
 };
 
 var zonesLargesStyle = {
     "color": "#0000FF",
-    "weight": 5,
-    "opacity": 0.35
+    "weight": 1,
+    "opacity": 0.25
 };
 
 
 // JSONs
-var zonesLargesBDXJson = L.geoJson(
-    zonesLargesBDX,
-    {
-        style: zonesLargesStyle,
-        onEachFeature: function (feature, layer) {
-            layer.bindPopup("<b>" + feature.properties.NOMCOMMUNE + " (" + feature.properties.CODEINSEE + ")</b><br />Population : " + feature.properties.POPULATION + " personnes<br />Date de recensement : " + feature.properties.DATERECENS);
-        }
-    }
-).addTo(mymap);
-
 var zonesFinesBDXJson = L.geoJson(
     zonesFinesBDX,
     {
         style: zonesFinesStyle,
         onEachFeature: function (feature, layer) {
     		layer.bindPopup("<b>" + feature.properties.NOMCOMMUNE + " (" + feature.properties.CODEINSEE + ")</b><br />Commentaire : " + feature.properties.COMMENT);
+        }
+    }
+).addTo(mymap);
+
+var zonesLargesBDXJson = L.geoJson(
+    zonesLargesBDX,
+    {
+        style: zonesLargesStyle,
+        onEachFeature: function (feature, layer) {
+            layer.bindPopup("<b>" + feature.properties.NOMCOMMUNE + " (" + feature.properties.CODEINSEE + ")</b><br />Population : " + feature.properties.POPULATION + " personnes<br />Date de recensement : " + feature.properties.DATERECENS);
         }
     }
 ).addTo(mymap);
@@ -91,7 +91,6 @@ var overlayMaps = {
 
 
 // Controler
-//L.control.layers(baseMaps, overlayMaps).addTo(mymap);
 var lcontrol = L.control.layers(baseMaps, overlayMaps).addTo(mymap);
 
 
