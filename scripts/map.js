@@ -1,5 +1,5 @@
 /*jslint node: true*/
-/*global L, zonesLargesBDX, zonesFinesBDX, zonesLargesTLS*/
+/*global L*/
 "use strict";
 
 // Background layers
