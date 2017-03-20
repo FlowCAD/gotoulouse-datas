@@ -85,7 +85,8 @@ var overlayMaps = {
     "Job": jobMarker,
 	"Job potentiel": potentialJobMarker,
     "Zones Larges": ZonesLargesJson,
-    "Zones Fines": ZonesFinesJson
+    "Zones Fines": ZonesFinesJson,
+    "Zones Larges Toulouse":zonesLargesTLSJson
 };
 
 
