@@ -35,6 +35,12 @@ var ZonesLargesStyle = {
     "opacity": 0.35
 };
 
+var zonesLargesTLSStyle = {
+    "color": "#00FF00",
+    "weight": 5,
+    "opacity": 0.35
+};
+
 
 // JSONs
 var ZonesLargesJson = L.geoJson(
@@ -57,6 +63,15 @@ var ZonesFinesJson = L.geoJson(
     }
 ).addTo(mymap);
 
+var zonesLargesTLSJson = L.geoJson(
+    zonesLargesTLS,
+    {
+        style: zonesLargesTLSStyle,
+        onEachFeature: function (feature, layer) {
+            layer.bindPopup("<b> Quartier : " + feature.properties.libelle_du);
+        }
+    }
+).addTo(mymap);
 
 // Basemaps for control
 var baseMaps = {
