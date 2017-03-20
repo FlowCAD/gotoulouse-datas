@@ -8,6 +8,7 @@ html, body, #mapId {
 }
 
 #cityChoice {
+    padding: 0 4px 2px 0;
     z-index: 10000;
     bottom: 10px;
     left: 10px;
