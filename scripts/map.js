@@ -1,62 +1,63 @@
+/*jslint node: true*/
+/*global L, zonesLargesBDX, zonesFinesBDX, zonesLargesTLS*/
+"use strict";
+
 // Background layers
 var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
         '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
         'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-    mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw';
+    mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZmxvcmlhbmNhZG96IiwiYSI6ImNqMGkzN3ZzYzAwM3MzMm80MDZ6eGQ2bmwifQ.BMmvDcBnXoWT8waOnIKNBg';
 
-var grayscale   = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
-    satellite  = L.tileLayer(mbUrl, {id: 'mapbox.satellite',   attribution: mbAttr}),
-    streets  = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr});
+var osmAttr = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors', osmUrl = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
+
+var grayscale = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
+    satellite = L.tileLayer(mbUrl, {id: 'mapbox.satellite',   attribution: mbAttr}),
+    streets = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr}),
+    osm = L.tileLayer(osmUrl, {attribution: osmAttr});
 
 
 // Markers
-var jobMarker = L.marker([44.805458, -0.559889]).bindPopup("<b>Travail</b><br>Lieu de travail actuel");
-var potentialJobMarker = L.marker([43.553609, 1.485198]).bindPopup("<b>Travail</b><br>Lieu de travail potentiel");
+var mobigisMarker = L.marker([44.805458, -0.559889]).bindPopup("<b>Travail</b><br>Lieu de travail actuel");
+var thalesMarker = L.marker([43.536916, 1.513079]).bindPopup("<b>Travail</b><br>Thalès Service Labège");
 
 
 // Map's properties
 var mymap = L.map('mapId', {
     center: [44.83688, -0.57129],
     zoom: 12,
-    layers: [streets, jobMarker, potentialJobMarker]
+    layers: [osm, mobigisMarker, thalesMarker]
 });
 
 
 // Styles
-var ZonesFinesStyle = {
+var zonesFinesStyle = {
     "color": "#ff7800",
     "weight": 5,
     "opacity": 0.65
 };
 
-var ZonesLargesStyle = {
+var zonesLargesStyle = {
     "color": "#0000FF",
-    "weight": 5,
-    "opacity": 0.35
-};
-
-var zonesLargesTLSStyle = {
-    "color": "#00FF00",
     "weight": 5,
     "opacity": 0.35
 };
 
 
 // JSONs
-var ZonesLargesJson = L.geoJson(
+var zonesLargesBDXJson = L.geoJson(
     zonesLargesBDX,
     {
-        style: ZonesLargesStyle,
+        style: zonesLargesStyle,
         onEachFeature: function (feature, layer) {
             layer.bindPopup("<b>" + feature.properties.NOMCOMMUNE + " (" + feature.properties.CODEINSEE + ")</b><br />Population : " + feature.properties.POPULATION + " personnes<br />Date de recensement : " + feature.properties.DATERECENS);
         }
     }
 ).addTo(mymap);
 
-var ZonesFinesJson = L.geoJson(
+var zonesFinesBDXJson = L.geoJson(
     zonesFinesBDX,
     {
-        style: ZonesFinesStyle,
+        style: zonesFinesStyle,
         onEachFeature: function (feature, layer) {
     		layer.bindPopup("<b>" + feature.properties.NOMCOMMUNE + " (" + feature.properties.CODEINSEE + ")</b><br />Commentaire : " + feature.properties.COMMENT);
         }
@@ -66,15 +67,16 @@ var ZonesFinesJson = L.geoJson(
 var zonesLargesTLSJson = L.geoJson(
     zonesLargesTLS,
     {
-        style: zonesLargesTLSStyle,
+        style: zonesLargesStyle,
         onEachFeature: function (feature, layer) {
-            layer.bindPopup("<b> Quartier : " + feature.properties.libelle_du);
+            layer.bindPopup("<b> Quartier : " + feature.properties.libelle_du + "</b>");
         }
     }
 ).addTo(mymap);
 
 // Basemaps for control
 var baseMaps = {
+    "OpenStreetMap": osm,
     "Plan gris": grayscale,
     "Plan": streets,
     "Satellite": satellite
@@ -82,16 +84,15 @@ var baseMaps = {
 
 // Layers for control
 var overlayMaps = {
-    "Job": jobMarker,
-	"Job potentiel": potentialJobMarker,
-    "Zones Larges": ZonesLargesJson,
-    "Zones Fines": ZonesFinesJson,
-    "Zones Larges Toulouse":zonesLargesTLSJson
+    "MobiGIS Bègles": mobigisMarker,
+    "Zones Larges Bordeaux": zonesLargesBDXJson,
+    "Zones Fines Bordeaux": zonesFinesBDXJson
 };
 
 
 // Controler
-L.control.layers(baseMaps, overlayMaps).addTo(mymap);
+//L.control.layers(baseMaps, overlayMaps).addTo(mymap);
+var lcontrol = L.control.layers(baseMaps, overlayMaps).addTo(mymap);
 
 
 // Geocorder OpenStreetMap
@@ -102,10 +103,25 @@ new L.Control.GeoSearch({
 }).addTo(mymap);
 
 
-// Pan to another city
-var cityToChoose = document.forms["cityChoiceForm"].elements["city"];
+// Removing data
+var removeData = function (layerToRemove) {
+    mymap.removeLayer(layerToRemove);
+    lcontrol.removeLayer(layerToRemove);
+};
 
-cityToChoose[0].onclick = function() {
+
+// Adding data
+var addingData = function (layerToAdd, layerNameToAdd) {
+    mymap.addLayer(layerToAdd);
+    lcontrol.addOverlay(layerToAdd, layerNameToAdd);
+};
+
+
+// Pan to another city
+var cityToChoose = document.forms.cityChoiceForm.elements.city;
+
+cityToChoose[0].onclick = function () {
+    console.log("Bordeaux");
     mymap.setView(
         new L.LatLng(44.83688, -0.57129),
         12,
@@ -113,9 +129,15 @@ cityToChoose[0].onclick = function() {
             animate: true
         }
     );
+    removeData(thalesMarker);
+    removeData(zonesLargesTLSJson);
+    addingData(mobigisMarker, "MobiGIS Bègles");
+    addingData(zonesFinesBDXJson, "Zones Fines Bordeaux");
+    addingData(zonesLargesBDXJson, "Zones Larges Bordeaux");
 };
 
-cityToChoose[1].onclick = function() {
+cityToChoose[1].onclick = function () {
+    console.log("Toulouse");
     mymap.setView(
         new L.LatLng(43.599560, 1.441079),
         12,
@@ -123,6 +145,11 @@ cityToChoose[1].onclick = function() {
             animate: true
         }
     );
+    removeData(mobigisMarker);
+    removeData(zonesFinesBDXJson);
+    removeData(zonesLargesBDXJson);
+    addingData(thalesMarker, "Thalès Service Labège");
+    addingData(zonesLargesTLSJson, "Zones Larges Toulouse");
 };
 
 
