@@ -38,7 +38,7 @@ var ZonesLargesStyle = {
 
 // JSONs
 var ZonesLargesJson = L.geoJson(
-    ZonesLarges,
+    zonesLargesBDX,
     {
         style: ZonesLargesStyle,
         onEachFeature: function (feature, layer) {
@@ -48,7 +48,7 @@ var ZonesLargesJson = L.geoJson(
 ).addTo(mymap);
 
 var ZonesFinesJson = L.geoJson(
-    ZonesFines,
+    zonesFinesBDX,
     {
         style: ZonesFinesStyle,
         onEachFeature: function (feature, layer) {
