@@ -151,7 +151,9 @@ cityToChoose[1].onclick = function () {
     addingData(zonesLargesTLSJson, "Zones Larges Toulouse");
 };
 
-
+var xhr = new XMLHttpRequest();
+xhr.open('GET', 'https://data.toulouse-metropole.fr/api/v2/catalog/datasets/recensement-population-2012-grands-quartiers-logement/records?rows=10&pretty=false&timezone=UTC');
+xhr.send(null);
 // Event on the map
 /*var popup = L.popup();
 
