@@ -152,6 +152,7 @@ cityToChoose[1].onclick = function () {
 };
 
 
+//Go searching for openData from Toulouse Metropole
 var myXHR = new XMLHttpRequest();
 myXHR.open('GET', 'https://data.toulouse-metropole.fr/api/v2/catalog/datasets/recensement-population-2012-grands-quartiers-logement/records?rows=100&pretty=false&timezone=UTC');
 myXHR.send(null);
