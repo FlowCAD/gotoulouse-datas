@@ -153,6 +153,12 @@ cityToChoose[1].onclick = function () {
 
 
 //Go searching for openData from Toulouse Metropole
+/*
+var paramData = encodeURI(valueOfParamData), paramFilter = encodeURI(valueOfParamFilter);
+myXHR.open('POST', 'http://mon_site_web.com/ajax.php');
+myXHR.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+myXHR.send('param1=' + paramData + '&param2=' + paramFilter);
+*/
 var myXHR = new XMLHttpRequest();
 myXHR.open('GET', 'https://data.toulouse-metropole.fr/api/v2/catalog/datasets/recensement-population-2012-grands-quartiers-logement/records?rows=100&pretty=false&timezone=UTC');
 myXHR.send(null);
