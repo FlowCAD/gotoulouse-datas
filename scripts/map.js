@@ -29,6 +29,10 @@ var mymap = L.map('mapId', {
 });
 
 
+// Hash the map (zoom/lon/lat)
+var hash = new L.Hash(mymap);
+
+
 // Styles
 var zonesFinesStyle = {
     "color": "#ff7800",
@@ -162,6 +166,10 @@ myXHR.send('param1=' + paramData + '&param2=' + paramFilter);
 var myXHR = new XMLHttpRequest();
 myXHR.open('GET', 'https://data.toulouse-metropole.fr/api/v2/catalog/datasets/recensement-population-2012-grands-quartiers-logement/records?rows=100&pretty=false&timezone=UTC');
 myXHR.send(null);
+
+myXHR.addEventListener('progress', function (e) {
+    console.log(e.loaded + ' / ' + e.total);
+});
 
 myXHR.addEventListener('readystatechange', function () {
     if (myXHR.readyState === XMLHttpRequest.DONE) {
