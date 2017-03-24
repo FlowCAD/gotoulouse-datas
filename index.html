@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<link rel="stylesheet" href="stylesheets/styles.css" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
+    <script src="https://use.fontawesome.com/c3faa48e99.js"></script>
 	<script type="text/javascript" src="geojson/zonesFinesBDX.geojson"></script>
 	<script type="text/javascript" src="geojson/zonesLargesBDX.geojson"></script>
 	<script type="text/javascript" src="geojson/zonesLargesTLS.geojson"></script>
@@ -20,10 +21,12 @@
   <body>
 	<div id="mapId">
     </div>
-    <div id="cityChoice">
+    <div id="coucouBar" class="mapControler">
+    </div>
+    <div id="cityChoice" class="mapControler">
         <form name="cityChoiceForm">
             <input type="radio" name="city" id="Bordeaux" value="Bordeaux" checked>
-            <label for="Bordeaux">Bordeaux</label><br>
+            <label for="Bordeaux">Bordeaux <i class="fa fa-anchor fa-1x" aria-hidden="true"></i> </label><br>
             <input type="radio" name="city" id="Toulouse" value="Toulouse">
             <label for="Toulouse">Toulouse</label> 
         </form>
