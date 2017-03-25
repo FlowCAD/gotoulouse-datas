@@ -1,5 +1,5 @@
 /*jslint node: true*/
-/*global L, zonesLargesBDX, zonesFinesBDX, zonesLargesTLS*/
+/*global L, $, zonesLargesBDX, zonesFinesBDX, zonesLargesTLS, alert*/
 "use strict";
 
 // Background layers
@@ -29,6 +29,10 @@ var mymap = L.map('mapId', {
 });
 
 
+// Hash the map (zoom/lon/lat)
+var hash = new L.Hash(mymap);
+
+
 // Styles
 var zonesFinesStyle = {
     "color": "#ff7800",
@@ -49,7 +53,7 @@ var zonesFinesBDXJson = L.geoJson(
     {
         style: zonesFinesStyle,
         onEachFeature: function (feature, layer) {
-    		layer.bindPopup("<b>" + feature.properties.NOMCOMMUNE + " (" + feature.properties.CODEINSEE + ")</b><br />Commentaire : " + feature.properties.COMMENT);
+            layer.bindPopup("<b>" + feature.properties.NOMCOMMUNE + " (" + feature.properties.CODEINSEE + ")</b><br />Commentaire : " + feature.properties.COMMENT);
         }
     }
 ).addTo(mymap);
@@ -152,10 +156,30 @@ cityToChoose[1].onclick = function () {
 };
 
 
+// Send a mail with a link and the coordinates in the url
+L.easyButton('fa fa-envelope-o', function (btn, mymap) {
+    $('#emailLink').val(window.location.href);
+    $('#sendMailModal').modal('show');
+}).addTo(mymap);
+
+$('#emailSendButton').on('click', function (e) {
+    var mailModel = {
+        adress: document.getElementById("emailAdress").value,
+        text: document.getElementById("emailContent").value,
+        link: document.getElementById("emailLink").value
+    };
+    window.location.href = "mailto:" + mailModel.adress + "?subject='Mappart'&body=" + mailModel.text + "<br />" + mailModel.link;
+});
+
+
 //Go searching for openData from Toulouse Metropole
 var myXHR = new XMLHttpRequest();
 myXHR.open('GET', 'https://data.toulouse-metropole.fr/api/v2/catalog/datasets/recensement-population-2012-grands-quartiers-logement/records?rows=100&pretty=false&timezone=UTC');
 myXHR.send(null);
+
+myXHR.addEventListener('progress', function (e) {
+    console.log(e.loaded + ' / ' + e.total);
+});
 
 myXHR.addEventListener('readystatechange', function () {
     if (myXHR.readyState === XMLHttpRequest.DONE) {
@@ -171,12 +195,10 @@ myXHR.addEventListener('readystatechange', function () {
 
 // Event on the map
 /*var popup = L.popup();
-
 function onMapClick(e) {
     popup
         .setLatLng(e.latlng)
         .setContent("Ici, les coordonnées sont : " + e.latlng.toString())
         .openOn(mymap);
 }
-
 mymap.on('click', onMapClick);*/
