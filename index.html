@@ -1,38 +1,75 @@
 <!doctype html>
 <html>
-  <head>
-    <title>Mappart by FlowCAD</title>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/png" href="favicon.png" />
-    <!--Désactiver le scallage de la page sur mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-	<link rel="stylesheet" href="stylesheets/styles.css" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
-    <script src="https://use.fontawesome.com/c3faa48e99.js"></script>
-	<script type="text/javascript" src="geojson/zonesFinesBDX.geojson"></script>
-	<script type="text/javascript" src="geojson/zonesLargesBDX.geojson"></script>
-	<script type="text/javascript" src="geojson/zonesLargesTLS.geojson"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
-    <script type="text/javascript" src="scripts/leaflet-hash.js"></script>
-	<script src="geosearch/js/l.control.geosearch.js"></script>
-	<script src="geosearch/js/l.geosearch.provider.openstreetmap.js"></script>
-	<link rel="stylesheet" href="geosearch/css/l.geosearch.css" />
-  </head>
-  <body>
-	<div id="mapId">
-    </div>
-    <div id="coucouBar" class="mapControler">
-    </div>
-    <div id="cityChoice" class="mapControler">
-        <form name="cityChoiceForm">
-            <input type="radio" name="city" id="Bordeaux" value="Bordeaux" checked>
-            <label for="Bordeaux">Bordeaux <i class="fa fa-anchor fa-1x" aria-hidden="true"></i> </label><br>
-            <input type="radio" name="city" id="Toulouse" value="Toulouse">
-            <label for="Toulouse">Toulouse</label> 
-        </form>
-    </div>
-      
-	<script src="scripts/map.js"></script>
-      
-  </body>
+    <head>
+        <title>Mappart by FlowCAD</title>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/png" href="favicon.png" />
+        <!--Désactiver le scallage de la page sur mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="styles/styles.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
+        <link rel="stylesheet" href="scripts/modules/easy-button/easy-button.css" />
+        <script src="https://use.fontawesome.com/c3faa48e99.js"></script>
+        <script type="text/javascript" src="data/geojson/zonesFinesBDX.geojson"></script>
+        <script type="text/javascript" src="data/geojson/zonesLargesBDX.geojson"></script>
+        <script type="text/javascript" src="data/geojson/zonesLargesTLS.geojson"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
+        <script type="text/javascript" src="scripts/modules/leaflet-hash/leaflet-hash.js"></script>
+        <script type="text/javascript" src="scripts/modules/easy-button/easy-button.js"></script>
+        <script type="text/javascript" src="scripts/modules/geosearch/js/l.control.geosearch.js"></script>
+        <script type="text/javascript" src="scripts/modules/geosearch/js/l.geosearch.provider.openstreetmap.js"></script>
+        <link rel="stylesheet" href="scripts/modules/geosearch/css/l.geosearch.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <div id="mapId">
+        </div>
+
+        <div class="modal fade" id="sendMailModal" tabindex="-1" role="dialog" aria-labelledby="sendMailModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">Envoyer le lien vers ce lieu par mail</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="emailAdress" class="control-label">Destinaire : </label>
+                                <input type="email" class="form-control" id="emailAdress" placeholder="fredetjamy@wanadoo.fr" required=true>
+                            </div>
+                            <div class="form-group">
+                                <label for="emailContent" class="control-label">Message : </label>
+                                <textarea class="form-control" id="emailContent">Hey ! J'ai trouvé quelque chose d'intéressant ici :</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="emailLink" class="control-label">Lien : </label>
+                                <input type="url" class="form-control" id="emailLink" readonly>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="emailSendButton" type="button" class="btn btn-primary">
+                            <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>        
+        
+        <div id="cityChoice" class="mapControler">
+            <form name="cityChoiceForm">
+                <input type="radio" name="city" id="Bordeaux" value="Bordeaux" checked>
+                <label for="Bordeaux">Bordeaux</label><br>
+                <input type="radio" name="city" id="Toulouse" value="Toulouse">
+                <label for="Toulouse">Toulouse</label> 
+            </form>
+        </div>
+
+        <script src="scripts/map.js"></script>
+
+    </body>
 </html>

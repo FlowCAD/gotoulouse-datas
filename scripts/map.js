@@ -1,5 +1,5 @@
 /*jslint node: true*/
-/*global L, zonesLargesBDX, zonesFinesBDX, zonesLargesTLS*/
+/*global L, $, zonesLargesBDX, zonesFinesBDX, zonesLargesTLS, alert*/
 "use strict";
 
 // Background layers
@@ -53,7 +53,7 @@ var zonesFinesBDXJson = L.geoJson(
     {
         style: zonesFinesStyle,
         onEachFeature: function (feature, layer) {
-    		layer.bindPopup("<b>" + feature.properties.NOMCOMMUNE + " (" + feature.properties.CODEINSEE + ")</b><br />Commentaire : " + feature.properties.COMMENT);
+            layer.bindPopup("<b>" + feature.properties.NOMCOMMUNE + " (" + feature.properties.CODEINSEE + ")</b><br />Commentaire : " + feature.properties.COMMENT);
         }
     }
 ).addTo(mymap);
@@ -154,6 +154,22 @@ cityToChoose[1].onclick = function () {
     addingData(thalesMarker, "Thalès Service Labège");
     addingData(zonesLargesTLSJson, "Zones Larges Toulouse");
 };
+
+
+// Send a mail with a link and the coordinates in the url
+L.easyButton('fa fa-envelope-o', function (btn, mymap) {
+    $('#emailLink').val(window.location.href);
+    $('#sendMailModal').modal('show');
+}).addTo(mymap);
+
+$('#emailSendButton').on('click', function (e) {
+    var mailModel = {
+        adress: document.getElementById("emailAdress").value,
+        text: document.getElementById("emailContent").value,
+        link: document.getElementById("emailLink").value
+    };
+    window.location.href = "mailto:" + mailModel.adress + "?subject='Mappart'&body=" + mailModel.text + "<br />" + mailModel.link;
+});
 
 
 //Go searching for openData from Toulouse Metropole
