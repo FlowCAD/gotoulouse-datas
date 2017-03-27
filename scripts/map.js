@@ -74,23 +74,17 @@ var zonesLargesTLSJson = L.geoJson(
 
 var checkForUrlTransmission = function () {
     console.log('checkForUrlTransmission');
-    /*var myCurrentUrl = window.location.href,
-        myUrl = "https://flowcad.github.io/mappart/";
-    if (myCurrentUrl !== myUrl) {
-        console.log('myCurrentUrl', myCurrentUrl);
-    }*/
-    
     var myCurrentUrl = window.location.href,
+        paramURL = null,
         myUrlRegex = /\/index\.html$/,
-        myUrlParamRegex = /#[0-9]/,
-        myUrlZoomParamRegex = /#[0-9]{1,2}/,
-        myUrlLonParamRegex = /\/-[0-9]/, /*-0.6154*/
-        myUrlLatParamRegex = /\/[0-9]/; /*44.8446*/
+        myUrlParamRegex = /#([0-9]{1,2})\/([0-9]{1,2}\.?[0-9]*)\/(-?[0-9]{1,2}\.?[0-9]*)$/; /* like: #12/44.8369/-0.5713 */
     if (myUrlRegex.test(myCurrentUrl)) {
-        console.log('myCurrentUrl', myCurrentUrl);
+        console.log('Il n\'y a pas de paramètres en URL');
     } else {
-        console.log('myCurrentUrl', myCurrentUrl);
-        console.log((myUrlParamRegex).test(myCurrentUrl));
+        console.log('Il y a des paramètres en URL');
+        paramURL = myUrlParamRegex.exec(myCurrentUrl);
+        console.log("paramURL : ", paramURL, "\nZoom : ", RegExp.$1, "\nLatitude : ", RegExp.$2, "\nLongitude : ", RegExp.$3);
+        // Todo : placer un marker avec les infos récupérées !
     }
 };
 
