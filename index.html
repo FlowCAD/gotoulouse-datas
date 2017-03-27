@@ -38,15 +38,15 @@
                     <div class="modal-body">
                         <form name="mailingForm" action="https://formspree.io/your@email.com" method="POST">
                             <div class="form-group">
-                                <label for="emailAdress" class="control-label">Destinaire : </label>
-                                <input type="email" class="form-control" id="emailAdress" placeholder="fredetjamy@wanadoo.fr" required=true>
+                                <label for="emailAdress" class="control-label">Destinaire* : </label>
+                                <input type="email" class="form-control" id="emailAdress" placeholder="fredetjamy@wanadoo.fr" required=true >
                             </div>
                             <div class="form-group">
                                 <label for="emailSender" class="control-label">Mon nom : </label>
                                 <input name="Nom de l'expéditeur" type="text" class="form-control" id="emailSender" placeholder="Marcel" required=true>
                             </div>
                             <div class="form-group">
-                                <label for="emailSenderMail" class="control-label">Mon mail (optionnel) : </label>
+                                <label for="emailSenderMail" class="control-label">Mon mail : <br /> <i>(Ne servira jamais à vous envoyer Spams ou Newletters)</i></label>
                                 <input name="Mail de l'expéditeur" type="email" class="form-control" id="emailSenderMail" placeholder="marcel@dansmoncamion.fr">
                             </div>
                             <div class="form-group">
@@ -61,6 +61,9 @@
                                 <i class="fa fa-envelope-o" aria-hidden="true"></i>
                             </button>
                         </form>
+                    </div>
+                    <div class="modal-footer">
+                        <p><i>* : Obligatoire <br />Attention : Afin de lutter contre les spams, votre destinataire devra préalablement accepter une première fois de recevoir des mails de la part de cette interface.</i></p>
                     </div>
                 </div>
             </div>
