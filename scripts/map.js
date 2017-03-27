@@ -169,6 +169,8 @@ L.easyButton('fa fa-envelope-o', function (btn, mymap) {
     $('#sendMailModal').modal('show');
 }).addTo(mymap);
 
+/*
+// OLD
 $('#emailSendButton').on('click', function (e) {
     var mailModel = {
         adress: document.getElementById("emailAdress").value,
@@ -176,6 +178,11 @@ $('#emailSendButton').on('click', function (e) {
         link: document.getElementById("emailLink").value
     };
     window.location.href = "mailto:" + mailModel.adress + "?subject='Mappart'&body=" + mailModel.text + "<br />" + mailModel.link;
+});
+*/
+$('#emailSendButton').on('click', function (e) {
+    var destinaire = document.getElementById("emailAdress").value;
+    document.mailingForm.action = "https://formspree.io/" + destinaire;
 });
 
 
