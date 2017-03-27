@@ -72,9 +72,32 @@ var zonesLargesTLSJson = L.geoJson(
     console.log("fonction initParam !");
 };*/
 
+var checkForUrlTransmission = function () {
+    console.log('checkForUrlTransmission');
+    /*var myCurrentUrl = window.location.href,
+        myUrl = "https://flowcad.github.io/mappart/";
+    if (myCurrentUrl !== myUrl) {
+        console.log('myCurrentUrl', myCurrentUrl);
+    }*/
+    
+    var myCurrentUrl = window.location.href,
+        myUrlRegex = /\/index\.html$/,
+        myUrlParamRegex = /#[0-9]/,
+        myUrlZoomParamRegex = /#[0-9]{1,2}/,
+        myUrlLonParamRegex = /\/-[0-9]/, /*-0.6154*/
+        myUrlLatParamRegex = /\/[0-9]/; /*44.8446*/
+    if (myUrlRegex.test(myCurrentUrl)) {
+        console.log('myCurrentUrl', myCurrentUrl);
+    } else {
+        console.log('myCurrentUrl', myCurrentUrl);
+        console.log((myUrlParamRegex).test(myCurrentUrl));
+    }
+};
+
 mymap.on("load", function () {
     console.log("map has loaded!");
     /*initParam();*/
+    checkForUrlTransmission();
 });
 
 mymap.setView([44.83688, -0.57129], 12);
