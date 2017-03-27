@@ -72,9 +72,26 @@ var zonesLargesTLSJson = L.geoJson(
     console.log("fonction initParam !");
 };*/
 
+var checkForUrlTransmission = function () {
+    console.log('checkForUrlTransmission');
+    var myCurrentUrl = window.location.href,
+        paramURL = null,
+        myUrlRegex = /\/index\.html$/,
+        myUrlParamRegex = /#([0-9]{1,2})\/([0-9]{1,2}\.?[0-9]*)\/(-?[0-9]{1,2}\.?[0-9]*)$/; /* like: #12/44.8369/-0.5713 */
+    if (myUrlRegex.test(myCurrentUrl)) {
+        console.log('Il n\'y a pas de paramètres en URL');
+    } else {
+        console.log('Il y a des paramètres en URL');
+        paramURL = myUrlParamRegex.exec(myCurrentUrl);
+        console.log("paramURL : ", paramURL, "\nZoom : ", RegExp.$1, "\nLatitude : ", RegExp.$2, "\nLongitude : ", RegExp.$3);
+        // Todo : placer un marker avec les infos récupérées !
+    }
+};
+
 mymap.on("load", function () {
     console.log("map has loaded!");
     /*initParam();*/
+    checkForUrlTransmission();
 });
 
 mymap.setView([44.83688, -0.57129], 12);
