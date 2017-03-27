@@ -1,7 +1,7 @@
 # mappart
+## Description
 Trouver l'emplacement idéal d'un logement
-
-See https://flowcad.github.io/mappart/
+Voir https://flowcad.github.io/mappart/
 
 ## Todo
 * Gérer les URLs avec des RegExp
