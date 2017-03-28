@@ -77,7 +77,7 @@ var checkForUrlTransmission = function () {
         myUrlRegexDev = /\/index\.html$/,
         myUrlRegexProd = /\/mappart\/?$/,
         myUrlParamRegex = /#([0-9]{1,2})\/([0-9]{1,2}\.?[0-9]*)\/(-?[0-9]{1,2}\.?[0-9]*)$/; /* like: #12/44.8369/-0.5713 */
-    if (!myUrlRegexDev.test(myCurrentUrl)) { /*/!\PENSER A CHANGER LA VARIABLE UTILISEE ENTRE myUrlRegexDev ET myUrlRegexProd EN FONCTION DE L'ENVIRONNEMENT/!\*/
+    if (!myUrlRegexProd.test(myCurrentUrl)) { /*/!\PENSER A CHANGER LA VARIABLE UTILISEE ENTRE myUrlRegexDev ET myUrlRegexProd EN FONCTION DE L'ENVIRONNEMENT/!\*/
         console.log('Il y a des paramètres en URL');
         paramURL = myUrlParamRegex.exec(myCurrentUrl);
         console.log("paramURL : ", paramURL, "\nZoom : ", RegExp.$1, "\nLatitude : ", RegExp.$2, "\nLongitude : ", RegExp.$3);
