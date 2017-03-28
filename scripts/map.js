@@ -10,30 +10,25 @@ var mymap = L.map('mapId');
 var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
         '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
         'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-    mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZmxvcmlhbmNhZG96IiwiYSI6ImNqMGkzN3ZzYzAwM3MzMm80MDZ6eGQ2bmwifQ.BMmvDcBnXoWT8waOnIKNBg';
-var osmAttr = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors', osmUrl = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
+    mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZmxvcmlhbmNhZG96IiwiYSI6ImNqMGkzN3ZzYzAwM3MzMm80MDZ6eGQ2bmwifQ.BMmvDcBnXoWT8waOnIKNBg',
+    osmAttr = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+    osmUrl = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
 
 var grayscale = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
     satellite = L.tileLayer(mbUrl, {id: 'mapbox.satellite',   attribution: mbAttr}),
     streets = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr}),
     osm = L.tileLayer(osmUrl, {attribution: osmAttr});
 
-// Markers
-var mobigisMarker = L.marker([44.805458, -0.559889]).bindPopup("<b>Travail</b><br>MobiGIS Bègles");
-var thalesMarker = L.marker([43.536916, 1.513079]).bindPopup("<b>Travail</b><br>Thalès Service Labège");
-
 // Styles
-var zonesFinesStyle = {
-    "color": "#ff7800",
-    "weight": 2,
-    "opacity": 0.65
-};
+var alertMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-exclamation', prefix: 'fa', color: 'blue', iconColor: 'white'}),
+    workMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-briefcase', prefix: 'fa', color: 'cadetblue', iconColor: 'white'});
 
-var zonesLargesStyle = {
-    "color": "#0000FF",
-    "weight": 1,
-    "opacity": 0.25
-};
+var zonesFinesStyle = {"color": "#ff7800", "weight": 2, "opacity": 0.65},
+    zonesLargesStyle = {"color": "#0000FF", "weight": 1, "opacity": 0.25};
+
+// Markers
+var mobigisMarker = L.marker([44.805458, -0.559889], {icon : workMarkerSymbol}).bindPopup("<b>Travail</b><br>MobiGIS Bègles"),
+    thalesMarker = L.marker([43.536916, 1.513079], {icon : workMarkerSymbol}).bindPopup("<b>Travail</b><br>Thalès Service Labège");
 
 // JSONs
 var zonesFinesBDXJson = L.geoJson(
@@ -68,29 +63,31 @@ var zonesLargesTLSJson = L.geoJson(
 
 //--------------------------------------------------------------------------------------------//
 
-/*var initParam = function () {
+var initParam = function () {
     console.log("fonction initParam !");
-};*/
+    mobigisMarker.addTo(mymap);
+    osm.addTo(mymap);
+};
 
 var checkForUrlTransmission = function () {
     console.log('checkForUrlTransmission');
     var myCurrentUrl = window.location.href,
         paramURL = null,
-        myUrlRegex = /\/index\.html$/,
+        paramURLPopup = null,
+        myUrlRegexDev = /\/index\.html$/,
+        myUrlRegexProd = /\/mappart\/?$/,
         myUrlParamRegex = /#([0-9]{1,2})\/([0-9]{1,2}\.?[0-9]*)\/(-?[0-9]{1,2}\.?[0-9]*)$/; /* like: #12/44.8369/-0.5713 */
-    if (myUrlRegex.test(myCurrentUrl)) {
-        console.log('Il n\'y a pas de paramètres en URL');
-    } else {
+    if (!myUrlRegexDev.test(myCurrentUrl)) { /*/!\PENSER A CHANGER LA VARIABLE UTILISEE ENTRE myUrlRegexDev ET myUrlRegexProd EN FONCTION DE L'ENVIRONNEMENT/!\*/
         console.log('Il y a des paramètres en URL');
         paramURL = myUrlParamRegex.exec(myCurrentUrl);
         console.log("paramURL : ", paramURL, "\nZoom : ", RegExp.$1, "\nLatitude : ", RegExp.$2, "\nLongitude : ", RegExp.$3);
-        // Todo : placer un marker avec les infos récupérées !
+        L.marker([RegExp.$2, RegExp.$3], {icon : alertMarkerSymbol}).addTo(mymap).bindPopup("<h6>Position transmise</h6>").openPopup();
     }
 };
 
 mymap.on("load", function () {
     console.log("map has loaded!");
-    /*initParam();*/
+    initParam();
     checkForUrlTransmission();
 });
 
@@ -99,8 +96,6 @@ mymap.setView([44.83688, -0.57129], 12);
 // Hash the map (zoom/lon/lat)
 var hash = new L.Hash(mymap);
 
-mobigisMarker.addTo(mymap);
-osm.addTo(mymap);
 
 // Basemaps for control
 var baseMaps = {

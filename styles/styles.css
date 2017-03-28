@@ -8,7 +8,7 @@ html, body, #mapId {
 }
 
 .mapControler {
-    z-index: 10000;
+    z-index: 10;
     background: #FFF;
     border-radius: 4px;
     box-shadow: 0 1px 7px 0px rgba(0, 0, 0, 0.65);
