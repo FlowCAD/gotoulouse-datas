@@ -21,7 +21,8 @@ var grayscale = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
 
 // Styles
 var alertMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-exclamation', prefix: 'fa', color: 'blue', iconColor: 'white'}),
-    workMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-briefcase', prefix: 'fa', color: 'cadetblue', iconColor: 'white'});
+    workMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-briefcase', prefix: 'fa', color: 'cadetblue', iconColor: 'white'}),
+    homeMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-home', prefix: 'fa', color: 'green', iconColor: 'white'});
 
 var zonesFinesStyle = {"color": "#ff7800", "weight": 2, "opacity": 0.65},
     zonesLargesStyle = {"color": "#0000FF", "weight": 1, "opacity": 0.25};
@@ -62,7 +63,7 @@ var zonesLargesTLSJson = L.geoJson(
 ).addTo(mymap);
 
 //--------------------------------------------------------------------------------------------//
-
+//-------------------------------------MAP INITIALIZATION-------------------------------------//
 var initParam = function () {
     console.log("fonction initParam !");
     mobigisMarker.addTo(mymap);
@@ -77,7 +78,7 @@ var checkForUrlTransmission = function () {
         myUrlRegexDev = /\/index\.html$/,
         myUrlRegexProd = /\/mappart\/?$/,
         myUrlParamRegex = /#([0-9]{1,2})\/([0-9]{1,2}\.?[0-9]*)\/(-?[0-9]{1,2}\.?[0-9]*)$/; /* like: #12/44.8369/-0.5713 */
-    if (!myUrlRegexDev.test(myCurrentUrl)) { /*/!\PENSER A CHANGER LA VARIABLE UTILISEE ENTRE myUrlRegexDev ET myUrlRegexProd EN FONCTION DE L'ENVIRONNEMENT/!\*/
+    if (!myUrlRegexDev.test(myCurrentUrl) && !myUrlRegexProd.test(myCurrentUrl)) {
         console.log('Il y a des paramètres en URL');
         paramURL = myUrlParamRegex.exec(myCurrentUrl);
         console.log("paramURL : ", paramURL, "\nZoom : ", RegExp.$1, "\nLatitude : ", RegExp.$2, "\nLongitude : ", RegExp.$3);
@@ -91,11 +92,12 @@ mymap.on("load", function () {
     checkForUrlTransmission();
 });
 
+//--------------------------------------------------------------------------------------------//
+//---------------------------------------MAP PROPERTIES---------------------------------------//
 mymap.setView([44.83688, -0.57129], 12);
 
 // Hash the map (zoom/lon/lat)
 var hash = new L.Hash(mymap);
-
 
 // Basemaps for control
 var baseMaps = {
@@ -112,10 +114,8 @@ var overlayMaps = {
     "Zones Fines Bordeaux": zonesFinesBDXJson
 };
 
-
 // Controler
 var lcontrol = L.control.layers(baseMaps, overlayMaps).addTo(mymap);
-
 
 // Geocorder OpenStreetMap
 new L.Control.GeoSearch({
@@ -123,7 +123,8 @@ new L.Control.GeoSearch({
     retainZoomLevel: false,
     showMarker: true
 }).addTo(mymap);
-
+//--------------------------------------------------------------------------------------------//
+//--------------------------------------OTHER FUNCTIONS---------------------------------------//
 
 // Removing data
 var removeData = function (layerToRemove) {
@@ -131,13 +132,11 @@ var removeData = function (layerToRemove) {
     lcontrol.removeLayer(layerToRemove);
 };
 
-
 // Adding data
 var addingData = function (layerToAdd, layerNameToAdd) {
     mymap.addLayer(layerToAdd);
     lcontrol.addOverlay(layerToAdd, layerNameToAdd);
 };
-
 
 // Pan to another city
 var cityToChoose = document.forms.cityChoiceForm.elements.city;
@@ -174,29 +173,29 @@ cityToChoose[1].onclick = function () {
     addingData(zonesLargesTLSJson, "Zones Larges Toulouse");
 };
 
-
 // Send a mail with a link and the coordinates in the url
 L.easyButton('fa fa-envelope-o', function (btn, mymap) {
     $('#emailLink').val(window.location.href);
     $('#sendMailModal').modal('show');
 }).addTo(mymap);
 
-/*
-// OLD
-$('#emailSendButton').on('click', function (e) {
-    var mailModel = {
-        adress: document.getElementById("emailAdress").value,
-        text: document.getElementById("emailContent").value,
-        link: document.getElementById("emailLink").value
-    };
-    window.location.href = "mailto:" + mailModel.adress + "?subject='Mappart'&body=" + mailModel.text + "<br />" + mailModel.link;
-});
-*/
 $('#emailSendButton').on('click', function (e) {
     var destinaire = document.getElementById("emailAdress").value;
     document.mailingForm.action = "https://formspree.io/" + destinaire;
 });
 
+// Trigger an onclick event on the map for opening a popup and send a mail with a link and the coordinates in the url
+var popupContentInAVar = '<button id="emailSendButton" type="submit" class="btn btn-primary"><i class="fa fa-envelope-o" aria-hidden="true"></i> Envoyer cette position par mail</button>';
+function onMapClick(e) {
+    L.popup()
+        .setLatLng(e.latlng)
+        /*.setContent('<h6><i class="fa fa-home"></i> Envoyer cette position par mail ?</h6> <br /><a class="btn btn-primary" href="#"><i class="fa fa-envelope-o"></i></a>')*/
+        /*.setContent('<a class="btn btn-primary" href="#"><i class="fa fa-envelope-o">Envoyer cette position par mail</i></a>')*/
+        .setContent(popupContentInAVar)
+        .openOn(mymap);
+    /*L.marker(e.latlng, {icon : homeMarkerSymbol}).addTo(mymap).bindPopup("<h6>Envoyer cette position par mail ?</h6>").openPopup();*/
+}
+mymap.on('click', onMapClick);
 
 //Go searching for openData from Toulouse Metropole
 var myXHR = new XMLHttpRequest();
@@ -218,6 +217,19 @@ myXHR.addEventListener('readystatechange', function () {
     }
 });
 
+//--------------------------------------------------------------------------------------------//
+//----------------------------------CLOSE YOUR LITTLE EYES------------------------------------//
+/*
+// OLD - Sending mail with backend
+$('#emailSendButton').on('click', function (e) {
+    var mailModel = {
+        adress: document.getElementById("emailAdress").value,
+        text: document.getElementById("emailContent").value,
+        link: document.getElementById("emailLink").value
+    };
+    window.location.href = "mailto:" + mailModel.adress + "?subject='Mappart'&body=" + mailModel.text + "<br />" + mailModel.link;
+});
+*/
 
 // Event on the map
 /*var popup = L.popup();
@@ -228,3 +240,4 @@ function onMapClick(e) {
         .openOn(mymap);
 }
 mymap.on('click', onMapClick);*/
+//--------------------------------------------------------------------------------------------//
