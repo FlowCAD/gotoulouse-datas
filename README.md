@@ -5,6 +5,7 @@ Trouver l'emplacement idéal d'un logement
 Voir https://flowcad.github.io/mappart/
 
 ## Todo
+* Ajouter mappart/ à côté du index.html pour la RegExp
 * Gérer les URLs avec des RegExp
 * Afficher un marker pour améliorer la fonction d'envoi de mail
 * Gérer l'évent onClick sur la map affichant une popup permettant également l'envoi des coordonnées par mail
