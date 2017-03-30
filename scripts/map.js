@@ -40,7 +40,7 @@ var zonesFinesBDXJson = L.geoJson(
             layer.bindPopup("<b>" + feature.properties.NOMCOMMUNE + " (" + feature.properties.CODEINSEE + ")</b><br />Commentaire : " + feature.properties.COMMENT);
         }
     }
-).addTo(mymap);
+);
 
 var zonesLargesBDXJson = L.geoJson(
     zonesLargesBDX,
@@ -50,7 +50,7 @@ var zonesLargesBDXJson = L.geoJson(
             layer.bindPopup("<b>" + feature.properties.NOMCOMMUNE + " (" + feature.properties.CODEINSEE + ")</b><br />Population : " + feature.properties.POPULATION + " personnes<br />Date de recensement : " + feature.properties.DATERECENS);
         }
     }
-).addTo(mymap);
+);
 
 var zonesLargesTLSJson = L.geoJson(
     zonesLargesTLS,
@@ -60,13 +60,15 @@ var zonesLargesTLSJson = L.geoJson(
             layer.bindPopup("<b> Quartier : " + feature.properties.libelle_du + "</b>");
         }
     }
-).addTo(mymap);
+);
 
 //--------------------------------------------------------------------------------------------//
 //-------------------------------------MAP INITIALIZATION-------------------------------------//
 var initParam = function () {
     console.log("fonction initParam !");
     mobigisMarker.addTo(mymap);
+    zonesFinesBDXJson.addTo(mymap);
+    zonesLargesBDXJson.addTo(mymap);
     osm.addTo(mymap);
 };
 
@@ -185,13 +187,26 @@ $('#emailSendButton').on('click', function (e) {
 });
 
 // Trigger an onclick event on the map for opening a popup and send a mail with a link and the coordinates in the url
-var popupContentInAVar = '<button id="emailSendButton" type="submit" class="btn btn-primary"><i class="fa fa-envelope-o" aria-hidden="true"></i> Envoyer cette position par mail</button>';
+//var popupContentInAVar = '<button id="emailSendButton" type="submit" class="btn btn-primary"><i class="fa fa-envelope-o" aria-hidden="true"></i> Envoyer cette position par mail</button>',
+//    /*mescouilles = '<a href="../pages/myass.html"></a>';*/
+//    mescouilles = $("</div>").load("./pages/myass.html");
 function onMapClick(e) {
     L.popup()
         .setLatLng(e.latlng)
         /*.setContent('<h6><i class="fa fa-home"></i> Envoyer cette position par mail ?</h6> <br /><a class="btn btn-primary" href="#"><i class="fa fa-envelope-o"></i></a>')*/
         /*.setContent('<a class="btn btn-primary" href="#"><i class="fa fa-envelope-o">Envoyer cette position par mail</i></a>')*/
-        .setContent(popupContentInAVar)
+        /*.setContent('<iframe id="iframe" src="./pages/myass.html"></iframe>')*/
+        .setContent('\
+            <button id="emailSendButton" type="submit" class="btn btn-primary">\
+                    <i class="fa fa-envelope-o" aria-hidden="true"></i> Envoyer cette position par mail\
+            </button>\
+            <button id="emailSendButton2" type="submit" class="btn btn-primary">\
+                    <i class="fa fa-envelope-o" aria-hidden="true"></i> Coucou\
+            </button>\
+            <button id="emailSendButton3" type="submit" class="btn btn-primary">\
+                    <i class="fa fa-envelope-o" aria-hidden="true"></i> HEY ! Re-coucou !\
+            </button>\
+')
         .openOn(mymap);
     /*L.marker(e.latlng, {icon : homeMarkerSymbol}).addTo(mymap).bindPopup("<h6>Envoyer cette position par mail ?</h6>").openPopup();*/
 }
