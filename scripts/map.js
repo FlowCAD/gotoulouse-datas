@@ -1,4 +1,5 @@
 /*jslint node: true*/
+/*jslint es5: true */
 /*global L, $, zonesLargesBDX, zonesFinesBDX, zonesLargesTLS, alert*/
 "use strict";
 
@@ -181,36 +182,50 @@ L.easyButton('fa fa-envelope-o', function (btn, mymap) {
     $('#sendMailModal').modal('show');
 }).addTo(mymap);
 
-$('#emailSendButton').on('click', function (e) {
-    var destinaire = document.getElementById("emailAdress").value;
-    document.mailingForm.action = "https://formspree.io/" + destinaire;
-});
+
+//--------------------------------------------------------------------------------------------//
+//------------------------------------------SANDBOX-------------------------------------------//
+
 
 // Trigger an onclick event on the map for opening a popup and send a mail with a link and the coordinates in the url
-//var popupContentInAVar = '<button id="emailSendButton" type="submit" class="btn btn-primary"><i class="fa fa-envelope-o" aria-hidden="true"></i> Envoyer cette position par mail</button>',
-//    /*mescouilles = '<a href="../pages/myass.html"></a>';*/
-//    mescouilles = $("</div>").load("./pages/myass.html");
-function onMapClick(e) {
-    L.popup()
-        .setLatLng(e.latlng)
-        /*.setContent('<h6><i class="fa fa-home"></i> Envoyer cette position par mail ?</h6> <br /><a class="btn btn-primary" href="#"><i class="fa fa-envelope-o"></i></a>')*/
-        /*.setContent('<a class="btn btn-primary" href="#"><i class="fa fa-envelope-o">Envoyer cette position par mail</i></a>')*/
-        /*.setContent('<iframe id="iframe" src="./pages/myass.html"></iframe>')*/
-        .setContent('\
-            <button id="emailSendButton" type="submit" class="btn btn-primary">\
-                    <i class="fa fa-envelope-o" aria-hidden="true"></i> Envoyer cette position par mail\
-            </button>\
-            <button id="emailSendButton2" type="submit" class="btn btn-primary">\
-                    <i class="fa fa-envelope-o" aria-hidden="true"></i> Coucou\
-            </button>\
-            <button id="emailSendButton3" type="submit" class="btn btn-primary">\
-                    <i class="fa fa-envelope-o" aria-hidden="true"></i> HEY ! Re-coucou !\
-            </button>\
-')
-        .openOn(mymap);
-    /*L.marker(e.latlng, {icon : homeMarkerSymbol}).addTo(mymap).bindPopup("<h6>Envoyer cette position par mail ?</h6>").openPopup();*/
-}
-mymap.on('click', onMapClick);
+//function onMapClick(e) {
+//    L.popup()
+//        .setLatLng(e.latlng)
+//        .setContent('\
+//            <div class="btn-group-vertical" role="group" aria-label="ahah">\
+//                <button id="onMapClickButton1" type="submit" class="btn btn-primary btn-block" >\
+//                        <i class="fa fa-envelope-o fa-fw" aria-hidden="true"></i> Envoyer cette position par mail\
+//                </button>\
+//                <button id="onMapClickButton2" type="submit" class="btn btn-primary btn-block">\
+//                        <i class="fa fa-map-marker fa-fw" aria-hidden="true"></i> Placer un marker temporaire\
+//                </button>\
+//                <button id="onMapClickButton3" type="submit" class="btn btn-primary btn-block" onclick="coucou(){console.log(\'coucou\');};">\
+//                        <i class="fa fa-globe fa-fw" aria-hidden="true"></i> Récupérer les coordonnées\
+//                </button>\
+//            </div>\
+//        ')
+//        .openOn(mymap);
+//}
+//mymap.on('click', onMapClick);
+
+
+//var marker = L.marker([44.8, -0.55]).addTo(mymap);
+//var container = $('<div />');
+//container.on('click', '.smallPolygonLink', function () {
+//    alert("test");
+//});
+//container.html("This is a link: <a href='#' class='smallPolygonLink'>Click me</a>.");
+//container.append($('<span class="bold">').text(" :)"));
+//
+//// Insert the container into the popup
+//marker.bindPopup(container[0]);
+
+
+//$('onMapClickButton3').on('click', function () {alert("Ici, les coordonnées sont : " + e.latlng.toString()); });
+/*L.marker(e.latlng, {icon : homeMarkerSymbol}).addTo(mymap).bindPopup("<h6>Envoyer cette position par mail ?</h6>").openPopup();*/
+
+
+
 
 //Go searching for openData from Toulouse Metropole
 var myXHR = new XMLHttpRequest();
