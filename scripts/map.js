@@ -29,8 +29,8 @@ var zonesFinesStyle = {"color": "#ff7800", "weight": 2, "opacity": 0.65},
     zonesLargesStyle = {"color": "#0000FF", "weight": 1, "opacity": 0.25};
 
 // Markers
-var mobigisMarker = L.marker([44.805458, -0.559889], {icon : workMarkerSymbol}).bindPopup("<b>Travail</b><br>MobiGIS Bègles"),
-    thalesMarker = L.marker([43.536916, 1.513079], {icon : workMarkerSymbol}).bindPopup("<b>Travail</b><br>Thalès Service Labège");
+var mobigisMarker = L.marker([44.805458, -0.559889], {icon : workMarkerSymbol}).bindPopup("<b>Travail</b><br />MobiGIS Bègles"),
+    thalesMarker = L.marker([43.536916, 1.513079], {icon : workMarkerSymbol}).bindPopup("<b>Travail</b><br />Thalès Service Labège");
 
 // JSONs
 var zonesFinesBDXJson = L.geoJson(
@@ -128,7 +128,6 @@ new L.Control.GeoSearch({
 }).addTo(mymap);
 //--------------------------------------------------------------------------------------------//
 //--------------------------------------OTHER FUNCTIONS---------------------------------------//
-
 // Removing data
 var removeData = function (layerToRemove) {
     mymap.removeLayer(layerToRemove);
@@ -182,51 +181,41 @@ L.easyButton('fa fa-envelope-o', function (btn, mymap) {
     $('#sendMailModal').modal('show');
 }).addTo(mymap);
 
+// Trigger an onclick event on the map and opening a great multitask popup
+var onclickPopupContainer = $('<div />'), mapClickEvent = null, onMapClickSendPositionMail = null, onMapClickPlaceMarker = null, onMapClickAlertCoord = null;
 
+onMapClickPlaceMarker = function () {
+    var marker = L.marker(mapClickEvent.latlng).bindPopup("<h5><i class='fa fa-info-circle' aria-hidden='true'></i> Marqueur Temporaire</h5><p>Ceci est un marquer temporaire, il ne sera pas sauvegardé après cette session !</p>").addTo(mymap);
+};
+
+onMapClickAlertCoord = function () {
+    alert("Ici, les coordonnées sont : " + mapClickEvent.latlng.toString());
+};
+
+onclickPopupContainer.html('\
+    <div class="btn-group-vertical" role="group">\
+        <button id="onMapClickButton1" type="submit" class="btn btn-primary btn-block" onclick="onMapClickPlaceMarker()>\
+                <i class="fa fa-envelope fa-fw" aria-hidden="true"></i> Envoyer cette position par mail\
+        </button>\
+        <button id="onMapClickButton2" type="submit" class="btn btn-primary btn-block" onclick="onMapClickPlaceMarker()">\
+                <i class="fa fa-map-marker fa-fw" aria-hidden="true"></i> Placer un marker temporaire\
+        </button>\
+        <button id="onMapClickButton3" type="submit" class="btn btn-primary btn-block" onclick="onMapClickAlertCoord()">\
+                <i class="fa fa-globe fa-fw" aria-hidden="true"></i> Récupérer les coordonnées\
+        </button>\
+    </div>\
+');
+
+function onMapClick(e) {
+    mapClickEvent = e;
+    L.popup()
+        .setLatLng(e.latlng)
+        .setContent(onclickPopupContainer[0])
+        .openOn(mymap);
+}
+mymap.on('click', onMapClick);
 //--------------------------------------------------------------------------------------------//
 //------------------------------------------SANDBOX-------------------------------------------//
-
-
-// Trigger an onclick event on the map for opening a popup and send a mail with a link and the coordinates in the url
-//function onMapClick(e) {
-//    L.popup()
-//        .setLatLng(e.latlng)
-//        .setContent('\
-//            <div class="btn-group-vertical" role="group" aria-label="ahah">\
-//                <button id="onMapClickButton1" type="submit" class="btn btn-primary btn-block" >\
-//                        <i class="fa fa-envelope-o fa-fw" aria-hidden="true"></i> Envoyer cette position par mail\
-//                </button>\
-//                <button id="onMapClickButton2" type="submit" class="btn btn-primary btn-block">\
-//                        <i class="fa fa-map-marker fa-fw" aria-hidden="true"></i> Placer un marker temporaire\
-//                </button>\
-//                <button id="onMapClickButton3" type="submit" class="btn btn-primary btn-block" onclick="coucou(){console.log(\'coucou\');};">\
-//                        <i class="fa fa-globe fa-fw" aria-hidden="true"></i> Récupérer les coordonnées\
-//                </button>\
-//            </div>\
-//        ')
-//        .openOn(mymap);
-//}
-//mymap.on('click', onMapClick);
-
-
-//var marker = L.marker([44.8, -0.55]).addTo(mymap);
-//var container = $('<div />');
-//container.on('click', '.smallPolygonLink', function () {
-//    alert("test");
-//});
-//container.html("This is a link: <a href='#' class='smallPolygonLink'>Click me</a>.");
-//container.append($('<span class="bold">').text(" :)"));
-//
-//// Insert the container into the popup
-//marker.bindPopup(container[0]);
-
-
-//$('onMapClickButton3').on('click', function () {alert("Ici, les coordonnées sont : " + e.latlng.toString()); });
-/*L.marker(e.latlng, {icon : homeMarkerSymbol}).addTo(mymap).bindPopup("<h6>Envoyer cette position par mail ?</h6>").openPopup();*/
-
-
-
-
 //Go searching for openData from Toulouse Metropole
 var myXHR = new XMLHttpRequest();
 myXHR.open('GET', 'https://data.toulouse-metropole.fr/api/v2/catalog/datasets/recensement-population-2012-grands-quartiers-logement/records?rows=100&pretty=false&timezone=UTC');
