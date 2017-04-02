@@ -184,6 +184,10 @@ L.easyButton('fa fa-envelope-o', function (btn, mymap) {
 // Trigger an onclick event on the map and opening a great multitask popup
 var onclickPopupContainer = $('<div />'), mapClickEvent = null, onMapClickSendPositionMail = null, onMapClickPlaceMarker = null, onMapClickAlertCoord = null;
 
+onMapClickSendPositionMail = function () {
+    alert("Cette fonction n'est pas encore disponible mais vous pouvez toujours utiliser le bouton sur votre gauche ! =)");
+};
+
 onMapClickPlaceMarker = function () {
     var marker = L.marker(mapClickEvent.latlng).bindPopup("<h5><i class='fa fa-info-circle' aria-hidden='true'></i> Marqueur Temporaire</h5><p>Ceci est un marquer temporaire, il ne sera pas sauvegardé après cette session !</p>").addTo(mymap);
 };
@@ -194,7 +198,7 @@ onMapClickAlertCoord = function () {
 
 onclickPopupContainer.html('\
     <div class="btn-group-vertical" role="group">\
-        <button id="onMapClickButton1" type="submit" class="btn btn-primary btn-block" onclick="onMapClickPlaceMarker()>\
+        <button id="onMapClickButton1" type="submit" class="btn btn-primary btn-block" onclick="onMapClickSendPositionMail()">\
                 <i class="fa fa-envelope fa-fw" aria-hidden="true"></i> Envoyer cette position par mail\
         </button>\
         <button id="onMapClickButton2" type="submit" class="btn btn-primary btn-block" onclick="onMapClickPlaceMarker()">\
