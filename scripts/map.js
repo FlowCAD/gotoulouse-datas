@@ -190,10 +190,12 @@ onMapClickSendPositionMail = function () {
 
 onMapClickPlaceMarker = function () {
     var marker = L.marker(mapClickEvent.latlng).bindPopup("<h5><i class='fa fa-info-circle' aria-hidden='true'></i> Marqueur Temporaire</h5><p>Ceci est un marquer temporaire, il ne sera pas sauvegardé après cette session !</p>").addTo(mymap);
+    mymap.closePopup();
 };
 
 onMapClickAlertCoord = function () {
     alert("Ici, les coordonnées sont : " + mapClickEvent.latlng.toString());
+    mymap.closePopup();
 };
 
 onclickPopupContainer.html('\
