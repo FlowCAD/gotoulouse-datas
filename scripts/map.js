@@ -185,7 +185,10 @@ L.easyButton('fa fa-envelope-o', function (btn, mymap) {
 var onclickPopupContainer = $('<div />'), mapClickEvent = null, onMapClickSendPositionMail = null, onMapClickPlaceMarker = null, onMapClickAlertCoord = null;
 
 onMapClickSendPositionMail = function () {
-    alert("Cette fonction n'est pas encore disponible mais vous pouvez toujours utiliser le bouton sur votre gauche ! =)");
+    var myUrlWithoutParam = window.location.hostname + window.location.pathname;
+    $('#emailLink').val(myUrlWithoutParam + '#' + mymap.getZoom() + '/' + mapClickEvent.latlng.lat.toFixed(4).toString() + '/' + mapClickEvent.latlng.lng.toFixed(4).toString());
+    $('#sendMailModal').modal('show');
+    mymap.closePopup();
 };
 
 onMapClickPlaceMarker = function () {
@@ -241,28 +244,3 @@ myXHR.addEventListener('readystatechange', function () {
         }
     }
 });
-
-//--------------------------------------------------------------------------------------------//
-//----------------------------------CLOSE YOUR LITTLE EYES------------------------------------//
-/*
-// OLD - Sending mail with backend
-$('#emailSendButton').on('click', function (e) {
-    var mailModel = {
-        adress: document.getElementById("emailAdress").value,
-        text: document.getElementById("emailContent").value,
-        link: document.getElementById("emailLink").value
-    };
-    window.location.href = "mailto:" + mailModel.adress + "?subject='Mappart'&body=" + mailModel.text + "<br />" + mailModel.link;
-});
-*/
-
-// Event on the map
-/*var popup = L.popup();
-function onMapClick(e) {
-    popup
-        .setLatLng(e.latlng)
-        .setContent("Ici, les coordonnées sont : " + e.latlng.toString())
-        .openOn(mymap);
-}
-mymap.on('click', onMapClick);*/
-//--------------------------------------------------------------------------------------------//
