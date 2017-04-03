@@ -185,7 +185,10 @@ L.easyButton('fa fa-envelope-o', function (btn, mymap) {
 var onclickPopupContainer = $('<div />'), mapClickEvent = null, onMapClickSendPositionMail = null, onMapClickPlaceMarker = null, onMapClickAlertCoord = null;
 
 onMapClickSendPositionMail = function () {
-    alert("Cette fonction n'est pas encore disponible mais vous pouvez toujours utiliser le bouton sur votre gauche ! =)");
+    var myUrlWithoutParam = window.location.hostname + window.location.pathname;
+    $('#emailLink').val(myUrlWithoutParam + '#' + mymap.getZoom() + '/' + mapClickEvent.latlng.lat.toFixed(4).toString() + '/' + mapClickEvent.latlng.lng.toFixed(4).toString());
+    $('#sendMailModal').modal('show');
+    mymap.closePopup();
 };
 
 onMapClickPlaceMarker = function () {
