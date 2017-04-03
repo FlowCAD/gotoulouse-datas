@@ -244,28 +244,3 @@ myXHR.addEventListener('readystatechange', function () {
         }
     }
 });
-
-//--------------------------------------------------------------------------------------------//
-//----------------------------------CLOSE YOUR LITTLE EYES------------------------------------//
-/*
-// OLD - Sending mail with backend
-$('#emailSendButton').on('click', function (e) {
-    var mailModel = {
-        adress: document.getElementById("emailAdress").value,
-        text: document.getElementById("emailContent").value,
-        link: document.getElementById("emailLink").value
-    };
-    window.location.href = "mailto:" + mailModel.adress + "?subject='Mappart'&body=" + mailModel.text + "<br />" + mailModel.link;
-});
-*/
-
-// Event on the map
-/*var popup = L.popup();
-function onMapClick(e) {
-    popup
-        .setLatLng(e.latlng)
-        .setContent("Ici, les coordonnées sont : " + e.latlng.toString())
-        .openOn(mymap);
-}
-mymap.on('click', onMapClick);*/
-//--------------------------------------------------------------------------------------------//
