@@ -226,8 +226,77 @@ mymap.on('click', onMapClick);
 //--------------------------------------------------------------------------------------------//
 //------------------------------------------SANDBOX-------------------------------------------//
 //Go searching for openData from Toulouse Metropole
+//var featuresCreated = {
+//    "type" : "FeatureCollection",
+//    "features" : [
+//        {
+//            "type" : "Feature",
+//            "id" : null,
+//            "geometry" : {
+//                "type" : null,
+//                "coordinates" : []
+//            },
+//            "properties" : {}
+//        }
+//    ]
+//};
+
+
+/*var loadXHRJSONOnMap = function (myResponse) {
+    var featuresCreated = {"type" : "FeatureCollection", "features" : []},
+        feature = {"type" : null, "id" : null, "geometry" : {}, "properties" : {}},
+        addFeature = function feature(type, id, geometry, properties) {
+            this.type = type;
+            this.id = id;
+            this.geometry = geometry;
+            this.properties = properties;
+        };
+    
+    
+    console.log("myXHR", myResponse);
+    var i = 0, featuresReceived = myResponse.records;
+    for (i = 0; i < featuresReceived.length; i += 1) {
+        var fieldsToCreate = featuresReceived[i].record.fields,
+            geomToCreate = featuresReceived[i].record.fields.geo_shape;
+        console.log(fieldsToCreate);
+        console.log(geomToCreate.geometry.coordinates);
+        console.log(geomToCreate.type);
+        addFeature("Feature", i + 1, {type : geomToCreate.type, coordinates : geomToCreate.geometry.coordinates}, fieldsToCreate);
+        console.log(feature);
+    }
+};*/
+
+var loadXHRJSONOnMap = function (myResponse) {
+    function Feature(id, lib, geometry, properties) {
+        this.id = id;
+        this.lib = lib;
+        this.geometry = geometry;
+        this.properties = properties;
+    }
+    var i,
+        featuresCreated = {
+            "type" : "FeatureCollection",
+            "features" : []
+        };
+    for (i = 0; i < myResponse.records.length; i += 1) {
+        var tmp = new Feature(
+            i + 1,
+            myResponse.records[i].record.fields.libelle_du_grand_quartier,
+            {
+                type : myResponse.records[i].record.fields.geo_shape.type,
+                coordinates : myResponse.records[i].record.fields.geo_shape.geometry.coordinates
+            },
+            myResponse.records[i].record.fields
+        );
+        console.log(tmp);
+        featuresCreated.features.push(tmp);
+        console.log(featuresCreated);
+    }
+};
+
 var myXHR = new XMLHttpRequest();
-myXHR.open('GET', 'https://data.toulouse-metropole.fr/api/v2/catalog/datasets/recensement-population-2012-grands-quartiers-logement/records?rows=100&pretty=false&timezone=UTC');
+myXHR.open('GET', 'https://data.toulouse-metropole.fr/api/v2/catalog/datasets/recensement-population-2012-grands-quartiers-logement/records?rows=3&fields=code_insee%2Creg2016%2Cdep%2Clibelle_du_grand_quartier%2Cgeo_shape&pretty=true&timezone=UTC');
+//myXHR.open('GET', 'https://data.toulouse-metropole.fr/api/v2/catalog/datasets/recensement-population-2012-grands-quartiers-logement/records?rows=1&pretty=true&timezone=UTC');
 myXHR.send(null);
 
 myXHR.addEventListener('progress', function (e) {
@@ -238,7 +307,7 @@ myXHR.addEventListener('readystatechange', function () {
     if (myXHR.readyState === XMLHttpRequest.DONE) {
         if (myXHR.status === 200) {
             var myResponse = JSON.parse(myXHR.responseText);
-            console.log("myXHR", myResponse);
+            loadXHRJSONOnMap(myResponse);
         } else {
             console.log("myXHR", myXHR.statusText);
         }
