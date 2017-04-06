@@ -238,30 +238,36 @@ var loadXHRJSONOnMap = function (myResponse) {
             "features" : []
         };
     for (i = 0; i < myResponse.records.length; i += 1) {
-        var tmp = new Feature(
+        var featureObject = new Feature(
             {
                 type : myResponse.records[i].record.fields.geo_shape.geometry.type,
                 coordinates : myResponse.records[i].record.fields.geo_shape.geometry.coordinates
             },
             myResponse.records[i].record.fields
         );
-        console.log(tmp);
-        featuresCreated.features.push(tmp);
+//        console.log(featureObject);
+        featuresCreated.features.push(featureObject);
     }
-    console.log(featuresCreated);
+//    console.log(featuresCreated);
     var myData = L.geoJson(
         featuresCreated,
         {
-            style: zonesFinesStyle/*,
+            style: zonesFinesStyle,
             onEachFeature: function (feature, layer) {
-                layer.bindPopup("<b>" + feature.properties.NOMCOMMUNE + " (" + feature.properties.CODEINSEE + ")</b><br />Commentaire : " + feature.properties.COMMENT);
-            }*/
+                var featureAttributes = "", attr;
+                for (attr in feature.properties) {
+                    if (typeof (feature.properties[attr]) !== "object") {
+                        featureAttributes += attr + " : " + feature.properties[attr] + "<br />";
+                    }
+                }
+                layer.bindPopup(featureAttributes);
+            }
         }
     ).addTo(mymap);
 };
 
 var myXHR = new XMLHttpRequest();
-myXHR.open('GET', 'https://data.toulouse-metropole.fr/api/v2/catalog/datasets/recensement-population-2012-grands-quartiers-logement/records?rows=3&fields=code_insee%2Creg2016%2Cdep%2Clibelle_du_grand_quartier%2Cgeo_shape&pretty=true&timezone=UTC');
+myXHR.open('GET', 'https://data.toulouse-metropole.fr/api/v2/catalog/datasets/recensement-population-2012-grands-quartiers-logement/records?rows=100&fields=code_insee%2Creg2016%2Cdep%2Clibelle_du_grand_quartier%2Cgeo_shape&pretty=true&timezone=UTC');
 //myXHR.open('GET', 'https://data.toulouse-metropole.fr/api/v2/catalog/datasets/recensement-population-2012-grands-quartiers-logement/records?rows=1&pretty=true&timezone=UTC');
 myXHR.send(null);
 
