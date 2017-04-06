@@ -25,8 +25,9 @@ var alertMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-exclamation', prefi
     workMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-briefcase', prefix: 'fa', color: 'cadetblue', iconColor: 'white'}),
     homeMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-home', prefix: 'fa', color: 'green', iconColor: 'white'});
 
-var zonesFinesStyle = {"color": "#ff7800", "weight": 2, "opacity": 0.65},
-    zonesLargesStyle = {"color": "#0000FF", "weight": 1, "opacity": 0.25};
+var zonesFinesStyle = {"weight": 2, "color": "#ff7800", "opacity": 1, fillColor: '#ff7800', fillOpacity: 0.4},
+    zonesLargesStyle = {"weight": 1, "color": "#0000FF", "opacity": 1, fillColor: '#0000FF', fillOpacity: 0.25},
+    polygonStyle = {"weight": 1, "color": "white", "opacity": 1, fillColor: 'rgb(52, 196, 85)', fillOpacity: 0.25};
 
 // Markers
 var mobigisMarker = L.marker([44.805458, -0.559889], {icon : workMarkerSymbol}).bindPopup("<b>Travail</b><br />MobiGIS Bègles"),
@@ -252,7 +253,7 @@ var loadXHRJSONOnMap = function (myResponse) {
     var myData = L.geoJson(
         featuresCreated,
         {
-            style: zonesFinesStyle,
+            style: polygonStyle,
             onEachFeature: function (feature, layer) {
                 var featureAttributes = "", attr;
                 for (attr in feature.properties) {
