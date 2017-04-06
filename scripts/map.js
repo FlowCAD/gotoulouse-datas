@@ -267,11 +267,10 @@ mymap.on('click', onMapClick);
 };*/
 
 var loadXHRJSONOnMap = function (myResponse) {
-    function Feature(id, lib, geometry, properties) {
-        this.id = id;
-        this.lib = lib;
+    function Feature(geometry, properties) {
         this.geometry = geometry;
         this.properties = properties;
+        this.type = "Feature";
     }
     var i,
         featuresCreated = {
@@ -280,18 +279,25 @@ var loadXHRJSONOnMap = function (myResponse) {
         };
     for (i = 0; i < myResponse.records.length; i += 1) {
         var tmp = new Feature(
-            i + 1,
-            myResponse.records[i].record.fields.libelle_du_grand_quartier,
             {
-                type : myResponse.records[i].record.fields.geo_shape.type,
+                type : myResponse.records[i].record.fields.geo_shape.geometry.type,
                 coordinates : myResponse.records[i].record.fields.geo_shape.geometry.coordinates
             },
             myResponse.records[i].record.fields
         );
         console.log(tmp);
         featuresCreated.features.push(tmp);
-        console.log(featuresCreated);
     }
+    console.log(featuresCreated);
+    var myData = L.geoJson(
+        featuresCreated,
+        {
+            style: zonesFinesStyle/*,
+            onEachFeature: function (feature, layer) {
+                layer.bindPopup("<b>" + feature.properties.NOMCOMMUNE + " (" + feature.properties.CODEINSEE + ")</b><br />Commentaire : " + feature.properties.COMMENT);
+            }*/
+        }
+    ).addTo(mymap);
 };
 
 var myXHR = new XMLHttpRequest();
