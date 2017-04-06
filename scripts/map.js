@@ -226,46 +226,6 @@ mymap.on('click', onMapClick);
 //--------------------------------------------------------------------------------------------//
 //------------------------------------------SANDBOX-------------------------------------------//
 //Go searching for openData from Toulouse Metropole
-//var featuresCreated = {
-//    "type" : "FeatureCollection",
-//    "features" : [
-//        {
-//            "type" : "Feature",
-//            "id" : null,
-//            "geometry" : {
-//                "type" : null,
-//                "coordinates" : []
-//            },
-//            "properties" : {}
-//        }
-//    ]
-//};
-
-
-/*var loadXHRJSONOnMap = function (myResponse) {
-    var featuresCreated = {"type" : "FeatureCollection", "features" : []},
-        feature = {"type" : null, "id" : null, "geometry" : {}, "properties" : {}},
-        addFeature = function feature(type, id, geometry, properties) {
-            this.type = type;
-            this.id = id;
-            this.geometry = geometry;
-            this.properties = properties;
-        };
-    
-    
-    console.log("myXHR", myResponse);
-    var i = 0, featuresReceived = myResponse.records;
-    for (i = 0; i < featuresReceived.length; i += 1) {
-        var fieldsToCreate = featuresReceived[i].record.fields,
-            geomToCreate = featuresReceived[i].record.fields.geo_shape;
-        console.log(fieldsToCreate);
-        console.log(geomToCreate.geometry.coordinates);
-        console.log(geomToCreate.type);
-        addFeature("Feature", i + 1, {type : geomToCreate.type, coordinates : geomToCreate.geometry.coordinates}, fieldsToCreate);
-        console.log(feature);
-    }
-};*/
-
 var loadXHRJSONOnMap = function (myResponse) {
     function Feature(geometry, properties) {
         this.geometry = geometry;
