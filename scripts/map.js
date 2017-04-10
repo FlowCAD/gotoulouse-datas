@@ -21,9 +21,10 @@ var grayscale = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
     osm = L.tileLayer(osmUrl, {attribution: osmAttr});
 
 // Styles
-var alertMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-exclamation', prefix: 'fa', color: 'blue', iconColor: 'white'}),
-    workMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-briefcase', prefix: 'fa', color: 'cadetblue', iconColor: 'white'}),
-    homeMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-home', prefix: 'fa', color: 'green', iconColor: 'white'});
+var alertMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-exclamation', prefix: 'fa', color: 'orange', iconColor: 'white'}),
+    workMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-briefcase', prefix: 'fa', color: 'darkblue', iconColor: 'white'}),
+    homeMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-home', prefix: 'fa', color: 'green', iconColor: 'white'}),
+    transportMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-subway', prefix: 'fa', color: 'blue', iconColor: 'white'});
 
 var zonesFinesStyle = {"weight": 2, "color": "#ff7800", "opacity": 1, fillColor: '#ff7800', fillOpacity: 0.4},
     zonesLargesStyle = {"weight": 1, "color": "#0000FF", "opacity": 1, fillColor: '#0000FF', fillOpacity: 0.25},
@@ -202,19 +203,7 @@ onMapClickAlertCoord = function () {
     mymap.closePopup();
 };
 
-onclickPopupContainer.html('\
-    <div class="btn-group-vertical" role="group">\
-        <button id="onMapClickButton1" type="submit" class="btn btn-primary btn-block" onclick="onMapClickSendPositionMail()">\
-                <i class="fa fa-envelope fa-fw" aria-hidden="true"></i> Envoyer cette position par mail\
-        </button>\
-        <button id="onMapClickButton2" type="submit" class="btn btn-primary btn-block" onclick="onMapClickPlaceMarker()">\
-                <i class="fa fa-map-marker fa-fw" aria-hidden="true"></i> Placer un marker temporaire\
-        </button>\
-        <button id="onMapClickButton3" type="submit" class="btn btn-primary btn-block" onclick="onMapClickAlertCoord()">\
-                <i class="fa fa-globe fa-fw" aria-hidden="true"></i> Récupérer les coordonnées\
-        </button>\
-    </div>\
-');
+onclickPopupContainer.html('<div class="btn-group-vertical" role="group"><button id="onMapClickButton1" type="submit" class="btn btn-primary btn-block" onclick="onMapClickSendPositionMail()"><i class="fa fa-envelope fa-fw" aria-hidden="true"></i> Envoyer cette position par mail</button><button id="onMapClickButton2" type="submit" class="btn btn-primary btn-block" onclick="onMapClickPlaceMarker()"><i class="fa fa-map-marker fa-fw" aria-hidden="true"></i> Placer un marker temporaire</button><button id="onMapClickButton3" type="submit" class="btn btn-primary btn-block" onclick="onMapClickAlertCoord()"><i class="fa fa-globe fa-fw" aria-hidden="true"></i> Récupérer les coordonnées</button></div>');
 
 function onMapClick(e) {
     mapClickEvent = e;
@@ -227,29 +216,28 @@ mymap.on('click', onMapClick);
 //--------------------------------------------------------------------------------------------//
 //------------------------------------------SANDBOX-------------------------------------------//
 //Go searching for openData from Toulouse Metropole
-var loadXHRJSONOnMap = function (myResponse) {
-    function Feature(geometry, properties) {
-        this.geometry = geometry;
-        this.properties = properties;
-        this.type = "Feature";
-    }
-    var i,
-        featuresCreated = {
-            "type" : "FeatureCollection",
-            "features" : []
-        };
-    for (i = 0; i < myResponse.records.length; i += 1) {
-        var featureObject = new Feature(
-            {
-                type : myResponse.records[i].record.fields.geo_shape.geometry.type,
-                coordinates : myResponse.records[i].record.fields.geo_shape.geometry.coordinates
+var fromPointFeatureToLayer = function (featuresCreated, openDataName) {
+    var myData = L.geoJson(
+        featuresCreated,
+        {
+            pointToLayer: function (feature, latlng) {
+                return new L.marker((latlng), {icon : transportMarkerSymbol});
             },
-            myResponse.records[i].record.fields
-        );
-//        console.log(featureObject);
-        featuresCreated.features.push(featureObject);
-    }
-//    console.log(featuresCreated);
+            onEachFeature: function (feature, layer) {
+                var featureAttributes = "", attr;
+                for (attr in feature.properties) {
+                    if (typeof (feature.properties[attr]) !== "object") {
+                        featureAttributes += attr + " : " + feature.properties[attr] + "<br />";
+                    }
+                }
+                layer.bindPopup(featureAttributes);
+            }
+        }
+    );
+    addingData(myData, openDataName);
+};
+
+var fromPolygonFeatureToLayer = function (featuresCreated, openDataName) {
     var myData = L.geoJson(
         featuresCreated,
         {
@@ -264,25 +252,96 @@ var loadXHRJSONOnMap = function (myResponse) {
                 layer.bindPopup(featureAttributes);
             }
         }
-    ).addTo(mymap);
+    );
+    addingData(myData, openDataName);
 };
 
-var myXHR = new XMLHttpRequest();
-myXHR.open('GET', 'https://data.toulouse-metropole.fr/api/v2/catalog/datasets/recensement-population-2012-grands-quartiers-logement/records?rows=100&fields=code_insee%2Creg2016%2Cdep%2Clibelle_du_grand_quartier%2Cgeo_shape&pretty=true&timezone=UTC');
-//myXHR.open('GET', 'https://data.toulouse-metropole.fr/api/v2/catalog/datasets/recensement-population-2012-grands-quartiers-logement/records?rows=1&pretty=true&timezone=UTC');
-myXHR.send(null);
-
-myXHR.addEventListener('progress', function (e) {
-    console.log(e.loaded + ' / ' + e.total);
-});
-
-myXHR.addEventListener('readystatechange', function () {
-    if (myXHR.readyState === XMLHttpRequest.DONE) {
-        if (myXHR.status === 200) {
-            var myResponse = JSON.parse(myXHR.responseText);
-            loadXHRJSONOnMap(myResponse);
-        } else {
-            console.log("myXHR", myXHR.statusText);
-        }
+var fromFeatureToFeatureType = function (featuresCreated, typeOfGeomArray, openDataName) {
+    console.log(featuresCreated, typeOfGeomArray, openDataName);
+    if (typeOfGeomArray.length !== 1) {
+        console.log("Il y a un problème avec le type de géométrie");
     }
-});
+    switch (typeOfGeomArray[0]) {
+    case "Point":
+        fromPointFeatureToLayer(featuresCreated, openDataName);
+        break;
+    case "LineString":
+        console.log("Hey c'est une LineString !");
+        break;
+    case "Polygon":
+        fromPolygonFeatureToLayer(featuresCreated, openDataName);
+        break;
+    case "MultiPoint":
+        fromPointFeatureToLayer(featuresCreated, openDataName);
+        break;
+    case "MultiLineString":
+        console.log("Hey c'est une MultiLineString !");
+        break;
+    case "MultiPolygon":
+        fromPolygonFeatureToLayer(featuresCreated, openDataName);
+        break;
+    case "GeometryCollection":
+        console.log("Hey c'est une GeometryCollection !");
+        break;
+    default:
+        console.log("Hey je connais pas ce type de géométrie !!");
+    }
+};
+
+var FeatureConstructor = function (geometry, properties) {
+    this.geometry = geometry;
+    this.properties = properties;
+    this.type = "Feature";
+};
+
+var fromXhrToFeature = function (myResponse, openDataName) {
+    var i,
+        typeOfGeomArray = [],
+        featuresCreated = {
+            "type" : "FeatureCollection",
+            "features" : []
+        };
+    
+    for (i = 0; i < myResponse.records.length; i += 1) {
+        var typeOfGeom = myResponse.records[i].record.fields.geo_shape.geometry.type,
+            theGeom = myResponse.records[i].record.fields.geo_shape.geometry.coordinates,
+            featureObject = new FeatureConstructor(
+                {
+                    type : typeOfGeom,
+                    coordinates : theGeom
+                },
+                myResponse.records[i].record.fields
+            );
+        if (typeOfGeomArray.indexOf(typeOfGeom) === -1) {
+            typeOfGeomArray.push(typeOfGeom);
+        }
+        featuresCreated.features.push(featureObject);
+    }
+    fromFeatureToFeatureType(featuresCreated, typeOfGeomArray, openDataName);
+};
+
+var myXHRSender = function (openData) {
+    var openDataLink = openData[0],
+        openDataName = openData[1],
+        openDataXHR = new XMLHttpRequest();
+    openDataXHR.open('GET', openDataLink);
+    openDataXHR.send(null);
+    /*openDataXHR.addEventListener('progress', function (e) {
+        console.log(e.loaded + ' / ' + e.total);
+    });*/
+    openDataXHR.addEventListener('readystatechange', function () {
+        if (openDataXHR.readyState === XMLHttpRequest.DONE) {
+            if (openDataXHR.status === 200) {
+                var myResponse = JSON.parse(openDataXHR.responseText);
+                fromXhrToFeature(myResponse, openDataName);
+            } else {
+                console.log("openDataXHR", openDataXHR.statusText);
+            }
+        }
+    });
+};
+
+var openDataDistricts = ['https://data.toulouse-metropole.fr/api/v2/catalog/datasets/recensement-population-2012-grands-quartiers-logement/records?rows=100&fields=code_insee%2Creg2016%2Cdep%2Clibelle_du_grand_quartier%2Cgeo_shape&pretty=true&timezone=UTC', "Grands quartiers"],
+    openDataSubwayStations = ['https://data.toulouse-metropole.fr/api/v2/catalog/datasets/stations-de-metro/records?rows=100&pretty=true&timezone=UTC', "Stations de métro"];
+myXHRSender(openDataDistricts);
+myXHRSender(openDataSubwayStations);
