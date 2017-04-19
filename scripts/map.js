@@ -15,8 +15,8 @@ var config = {
     messagingSenderId: "549265380497"
 };
 firebase.initializeApp(config);
-var dbRef = firebase.database().ref().child('Points');
-dbRef.on('value', snap => console.log("dbRef", snap.val()));
+//var dbRef = firebase.database().ref().child('Points');
+//dbRef.on('value', snap => console.log("dbRef", snap.val()));
 
 //--------------------------------------------------------------------------------------------//
 //--------------------------------------DATA DEFINITIONS--------------------------------------//
@@ -193,11 +193,27 @@ cityToChoose[1].onclick = function () {
     addingData(zonesLargesTLSJson, "Zones Larges Toulouse");
 };
 
+L.easyButton('fa fa-sign-in', function (btn, mymap) {
+    $('#loginModal').modal('show');
+}).addTo(mymap);
+
 // Send a mail with a link and the coordinates in the url
 L.easyButton('fa fa-envelope-o', function (btn, mymap) {
     $('#emailLink').val(window.location.href);
     $('#sendMailModal').modal('show');
 }).addTo(mymap);
+
+var onclickSendMailButton = function () {
+    var receiver = $("#emailAdress").val(),
+        senderName = $("#emailSender").val(),
+        senderMail = $("#emailSenderMail").val(),
+        senderMessage = $("#emailContent").val(),
+        senderLink = $("#emailLink").val(),
+        bodyOfMailToLink = encodeURI("Hey c'est " + senderName + " (mail : " + senderMail + " ) ! " + senderMessage + senderLink ),
+        mailToLink = "mailto:" + receiver + "?Subject=Mappart?body=" + bodyOfMailToLink;
+
+    window.location.href = mailToLink;
+};
 
 // Trigger an onclick event on the map and opening a great multitask popup
 var onclickPopupContainer = $('<div />'), mapClickEvent = null, onMapClickSendPositionMail = null, onMapClickPlaceMarker = null, onMapClickAlertCoord = null;
@@ -364,11 +380,6 @@ myXHRSender(openDataSubwayStations);
 
 
 //Login with firebase
-L.easyButton('fa fa-sign-in', function (btn, mymap) {
-    $('#loginModal').modal('show');
-}).addTo(mymap);
-
-
     /**
      * Handles the sign in button press.
      */
