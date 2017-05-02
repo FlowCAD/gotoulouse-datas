@@ -1,6 +1,6 @@
 /*jslint node: true*/
 /*jslint es5: true */
-/*global L, $, zonesLargesBDX, zonesFinesBDX, zonesLargesTLS, alert*/
+/*global L, $, zonesLargesTLS, alert*/
 "use strict";
 
 //--------------------------------------------------------------------------------------------//
@@ -22,6 +22,11 @@ firebase.initializeApp(config);
 //--------------------------------------DATA DEFINITIONS--------------------------------------//
 // Map's properties
 var mymap = L.map('mapId');
+
+// Map's bounds
+var northEastBound = L.latLng(43.68, 1.68),
+    southWestBound = L.latLng(43.52, 1.21),
+    bounds = L.latLngBounds(northEastBound, southWestBound);
 
 // Background layers
 var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
@@ -47,30 +52,9 @@ var zonesFinesStyle = {"weight": 2, "color": "#ff7800", "opacity": 1, fillColor:
     polygonStyle = {"weight": 1, "color": "white", "opacity": 1, fillColor: 'rgb(52, 196, 85)', fillOpacity: 0.25};
 
 // Markers
-var mobigisMarker = L.marker([44.805458, -0.559889], {icon : workMarkerSymbol}).bindPopup("<b>Travail</b><br />MobiGIS Bègles"),
-    thalesMarker = L.marker([43.536916, 1.513079], {icon : workMarkerSymbol}).bindPopup("<b>Travail</b><br />Thalès Service Labège");
+var thalesMarker = L.marker([43.536916, 1.513079], {icon : workMarkerSymbol}).bindPopup("<b>Travail</b><br />Thalès Service Labège");
 
 // JSONs
-var zonesFinesBDXJson = L.geoJson(
-    zonesFinesBDX,
-    {
-        style: zonesFinesStyle,
-        onEachFeature: function (feature, layer) {
-            layer.bindPopup("<b>" + feature.properties.NOMCOMMUNE + " (" + feature.properties.CODEINSEE + ")</b><br />Commentaire : " + feature.properties.COMMENT);
-        }
-    }
-);
-
-var zonesLargesBDXJson = L.geoJson(
-    zonesLargesBDX,
-    {
-        style: zonesLargesStyle,
-        onEachFeature: function (feature, layer) {
-            layer.bindPopup("<b>" + feature.properties.NOMCOMMUNE + " (" + feature.properties.CODEINSEE + ")</b><br />Population : " + feature.properties.POPULATION + " personnes<br />Date de recensement : " + feature.properties.DATERECENS);
-        }
-    }
-);
-
 var zonesLargesTLSJson = L.geoJson(
     zonesLargesTLS,
     {
@@ -85,9 +69,8 @@ var zonesLargesTLSJson = L.geoJson(
 //-------------------------------------MAP INITIALIZATION-------------------------------------//
 var initParam = function () {
     console.log("fonction initParam !");
-    mobigisMarker.addTo(mymap);
-    zonesFinesBDXJson.addTo(mymap);
-    zonesLargesBDXJson.addTo(mymap);
+    thalesMarker.addTo(mymap);
+    zonesLargesTLSJson.addTo(mymap);
     osm.addTo(mymap);
 };
 
@@ -115,7 +98,8 @@ mymap.on("load", function () {
 
 //--------------------------------------------------------------------------------------------//
 //---------------------------------------MAP PROPERTIES---------------------------------------//
-mymap.setView([44.83688, -0.57129], 12);
+mymap.setView([43.599560, 1.441079], 12).setMaxBounds(bounds);
+mymap.options.minZoom = 12;
 
 // Hash the map (zoom/lon/lat)
 var hash = new L.Hash(mymap);
@@ -130,9 +114,8 @@ var baseMaps = {
 
 // Layers for control
 var overlayMaps = {
-    "MobiGIS Bègles": mobigisMarker,
-    "Zones Larges Bordeaux": zonesLargesBDXJson,
-    "Zones Fines Bordeaux": zonesFinesBDXJson
+    "Thalès Service Labège": thalesMarker,
+    "Zones Larges Toulouse": zonesLargesTLSJson,
 };
 
 // Controler
@@ -156,41 +139,6 @@ var removeData = function (layerToRemove) {
 var addingData = function (layerToAdd, layerNameToAdd) {
     mymap.addLayer(layerToAdd);
     lcontrol.addOverlay(layerToAdd, layerNameToAdd);
-};
-
-// Pan to another city
-var cityToChoose = document.forms.cityChoiceForm.elements.city;
-
-cityToChoose[0].onclick = function () {
-    console.log("Bordeaux");
-    mymap.setView(
-        new L.LatLng(44.83688, -0.57129),
-        12,
-        {
-            animate: true
-        }
-    );
-    removeData(thalesMarker);
-    removeData(zonesLargesTLSJson);
-    addingData(mobigisMarker, "MobiGIS Bègles");
-    addingData(zonesFinesBDXJson, "Zones Fines Bordeaux");
-    addingData(zonesLargesBDXJson, "Zones Larges Bordeaux");
-};
-
-cityToChoose[1].onclick = function () {
-    console.log("Toulouse");
-    mymap.setView(
-        new L.LatLng(43.599560, 1.441079),
-        12,
-        {
-            animate: true
-        }
-    );
-    removeData(mobigisMarker);
-    removeData(zonesFinesBDXJson);
-    removeData(zonesLargesBDXJson);
-    addingData(thalesMarker, "Thalès Service Labège");
-    addingData(zonesLargesTLSJson, "Zones Larges Toulouse");
 };
 
 L.easyButton('fa fa-sign-in', function (btn, mymap) {
