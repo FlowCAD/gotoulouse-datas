@@ -1,6 +1,6 @@
 /*jslint node: true*/
 /*jslint es5: true */
-/*global L, $, zonesLargesBDX, zonesFinesBDX, zonesLargesTLS, alert*/
+/*global L, $, zonesLargesTLS, alert*/
 "use strict";
 
 //--------------------------------------------------------------------------------------------//
@@ -23,6 +23,11 @@ firebase.initializeApp(config);
 // Map's properties
 var mymap = L.map('mapId');
 
+// Map's bounds
+var northEastBound = L.latLng(43.68, 1.68),
+    southWestBound = L.latLng(43.52, 1.21),
+    bounds = L.latLngBounds(northEastBound, southWestBound);
+
 // Background layers
 var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
         '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
@@ -32,8 +37,8 @@ var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</
     osmUrl = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
 
 var grayscale = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
-    satellite = L.tileLayer(mbUrl, {id: 'mapbox.satellite',   attribution: mbAttr}),
-    streets = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr}),
+    satellite = L.tileLayer(mbUrl, {id: 'mapbox.satellite', attribution: mbAttr}),
+    streets = L.tileLayer(mbUrl, {id: 'mapbox.streets', attribution: mbAttr}),
     osm = L.tileLayer(osmUrl, {attribution: osmAttr});
 
 // Styles
@@ -47,30 +52,9 @@ var zonesFinesStyle = {"weight": 2, "color": "#ff7800", "opacity": 1, fillColor:
     polygonStyle = {"weight": 1, "color": "white", "opacity": 1, fillColor: 'rgb(52, 196, 85)', fillOpacity: 0.25};
 
 // Markers
-var mobigisMarker = L.marker([44.805458, -0.559889], {icon : workMarkerSymbol}).bindPopup("<b>Travail</b><br />MobiGIS Bègles"),
-    thalesMarker = L.marker([43.536916, 1.513079], {icon : workMarkerSymbol}).bindPopup("<b>Travail</b><br />Thalès Service Labège");
+var thalesMarker = L.marker([43.536916, 1.513079], {icon: workMarkerSymbol}).bindPopup("<b>Travail</b><br />Thalès Service Labège");
 
 // JSONs
-var zonesFinesBDXJson = L.geoJson(
-    zonesFinesBDX,
-    {
-        style: zonesFinesStyle,
-        onEachFeature: function (feature, layer) {
-            layer.bindPopup("<b>" + feature.properties.NOMCOMMUNE + " (" + feature.properties.CODEINSEE + ")</b><br />Commentaire : " + feature.properties.COMMENT);
-        }
-    }
-);
-
-var zonesLargesBDXJson = L.geoJson(
-    zonesLargesBDX,
-    {
-        style: zonesLargesStyle,
-        onEachFeature: function (feature, layer) {
-            layer.bindPopup("<b>" + feature.properties.NOMCOMMUNE + " (" + feature.properties.CODEINSEE + ")</b><br />Population : " + feature.properties.POPULATION + " personnes<br />Date de recensement : " + feature.properties.DATERECENS);
-        }
-    }
-);
-
 var zonesLargesTLSJson = L.geoJson(
     zonesLargesTLS,
     {
@@ -80,14 +64,16 @@ var zonesLargesTLSJson = L.geoJson(
         }
     }
 );
+//--------------------------------------------------------------------------------------------//
+//--------------------------------------BASICS FUNCTIONS--------------------------------------//
+
 
 //--------------------------------------------------------------------------------------------//
 //-------------------------------------MAP INITIALIZATION-------------------------------------//
 var initParam = function () {
     console.log("fonction initParam !");
-    mobigisMarker.addTo(mymap);
-    zonesFinesBDXJson.addTo(mymap);
-    zonesLargesBDXJson.addTo(mymap);
+    thalesMarker.addTo(mymap);
+    zonesLargesTLSJson.addTo(mymap);
     osm.addTo(mymap);
 };
 
@@ -95,7 +81,6 @@ var checkForUrlTransmission = function () {
     console.log('checkForUrlTransmission');
     var myCurrentUrl = window.location.href,
         paramURL = null,
-        paramURLPopup = null,
         myUrlRegexDev = /\/index\.html$/,
         myUrlRegexProd = /\/mappart\/?$/,
         myUrlParamRegex = /#([0-9]{1,2})\/([0-9]{1,2}\.?[0-9]*)\/(-?[0-9]{1,2}\.?[0-9]*)$/; /* like: #12/44.8369/-0.5713 */
@@ -103,7 +88,7 @@ var checkForUrlTransmission = function () {
         console.log('Il y a des paramètres en URL');
         paramURL = myUrlParamRegex.exec(myCurrentUrl);
         console.log("paramURL : ", paramURL, "\nZoom : ", RegExp.$1, "\nLatitude : ", RegExp.$2, "\nLongitude : ", RegExp.$3);
-        L.marker([RegExp.$2, RegExp.$3], {icon : alertMarkerSymbol}).addTo(mymap).bindPopup("<h6>Position transmise</h6>").openPopup();
+        L.marker([RegExp.$2, RegExp.$3], {icon: alertMarkerSymbol}).addTo(mymap).bindPopup("<h6>Position transmise</h6>").openPopup();
     }
 };
 
@@ -115,10 +100,11 @@ mymap.on("load", function () {
 
 //--------------------------------------------------------------------------------------------//
 //---------------------------------------MAP PROPERTIES---------------------------------------//
-mymap.setView([44.83688, -0.57129], 12);
+mymap.setView([43.599560, 1.441079], 12).setMaxBounds(bounds);
+mymap.options.minZoom = 12;
 
 // Hash the map (zoom/lon/lat)
-var hash = new L.Hash(mymap);
+new L.Hash(mymap);
 
 // Basemaps for control
 var baseMaps = {
@@ -130,9 +116,8 @@ var baseMaps = {
 
 // Layers for control
 var overlayMaps = {
-    "MobiGIS Bègles": mobigisMarker,
-    "Zones Larges Bordeaux": zonesLargesBDXJson,
-    "Zones Fines Bordeaux": zonesFinesBDXJson
+    "Thalès Service Labège": thalesMarker,
+    "Zones Larges Toulouse": zonesLargesTLSJson
 };
 
 // Controler
@@ -158,47 +143,12 @@ var addingData = function (layerToAdd, layerNameToAdd) {
     lcontrol.addOverlay(layerToAdd, layerNameToAdd);
 };
 
-// Pan to another city
-var cityToChoose = document.forms.cityChoiceForm.elements.city;
-
-cityToChoose[0].onclick = function () {
-    console.log("Bordeaux");
-    mymap.setView(
-        new L.LatLng(44.83688, -0.57129),
-        12,
-        {
-            animate: true
-        }
-    );
-    removeData(thalesMarker);
-    removeData(zonesLargesTLSJson);
-    addingData(mobigisMarker, "MobiGIS Bègles");
-    addingData(zonesFinesBDXJson, "Zones Fines Bordeaux");
-    addingData(zonesLargesBDXJson, "Zones Larges Bordeaux");
-};
-
-cityToChoose[1].onclick = function () {
-    console.log("Toulouse");
-    mymap.setView(
-        new L.LatLng(43.599560, 1.441079),
-        12,
-        {
-            animate: true
-        }
-    );
-    removeData(mobigisMarker);
-    removeData(zonesFinesBDXJson);
-    removeData(zonesLargesBDXJson);
-    addingData(thalesMarker, "Thalès Service Labège");
-    addingData(zonesLargesTLSJson, "Zones Larges Toulouse");
-};
-
-L.easyButton('fa fa-sign-in', function (btn, mymap) {
+L.easyButton('fa fa-sign-in', function () {
     $('#loginModal').modal('show');
 }).addTo(mymap);
 
 // Send a mail with a link and the coordinates in the url
-L.easyButton('fa fa-envelope-o', function (btn, mymap) {
+L.easyButton('fa fa-envelope-o', function () {
     $('#emailLink').val(window.location.href);
     $('#sendMailModal').modal('show');
 }).addTo(mymap);
@@ -209,7 +159,7 @@ var onclickSendMailButton = function () {
         senderMail = $("#emailSenderMail").val(),
         senderMessage = $("#emailContent").val(),
         senderLink = $("#emailLink").val(),
-        bodyOfMailToLink = encodeURI("Hey c'est " + senderName + " (mail : " + senderMail + " ) ! " + senderMessage + senderLink ),
+        bodyOfMailToLink = encodeURI("Hey c'est " + senderName + " (mail : " + senderMail + " ) ! " + senderMessage + senderLink),
         mailToLink = "mailto:" + receiver + "?Subject=Mappart?body=" + bodyOfMailToLink;
 
     window.location.href = mailToLink;
@@ -253,12 +203,12 @@ var fromPointFeatureToLayer = function (featuresCreated, openDataName) {
         featuresCreated,
         {
             pointToLayer: function (feature, latlng) {
-                return new L.marker((latlng), {icon : transportMarkerSymbol});
+                return new L.marker((latlng), {icon: transportMarkerSymbol});
             },
             onEachFeature: function (feature, layer) {
                 var featureAttributes = "", attr;
                 for (attr in feature.properties) {
-                    if (typeof (feature.properties[attr]) !== "object") {
+                    if (typeof(feature.properties[attr]) !== "object") {
                         featureAttributes += attr + " : " + feature.properties[attr] + "<br />";
                     }
                 }
@@ -277,7 +227,7 @@ var fromPolygonFeatureToLayer = function (featuresCreated, openDataName) {
             onEachFeature: function (feature, layer) {
                 var featureAttributes = "", attr;
                 for (attr in feature.properties) {
-                    if (typeof (feature.properties[attr]) !== "object") {
+                    if (typeof(feature.properties[attr]) !== "object") {
                         featureAttributes += attr + " : " + feature.properties[attr] + "<br />";
                     }
                 }
@@ -330,17 +280,16 @@ var fromXhrToFeature = function (myResponse, openDataName) {
     var i,
         typeOfGeomArray = [],
         featuresCreated = {
-            "type" : "FeatureCollection",
-            "features" : []
+            "type": "FeatureCollection",
+            "features": []
         };
-    
     for (i = 0; i < myResponse.records.length; i += 1) {
         var typeOfGeom = myResponse.records[i].record.fields.geo_shape.geometry.type,
             theGeom = myResponse.records[i].record.fields.geo_shape.geometry.coordinates,
             featureObject = new FeatureConstructor(
                 {
-                    type : typeOfGeom,
-                    coordinates : theGeom
+                    type: typeOfGeom,
+                    coordinates: theGeom
                 },
                 myResponse.records[i].record.fields
             );
