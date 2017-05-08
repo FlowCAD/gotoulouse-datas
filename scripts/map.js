@@ -37,8 +37,8 @@ var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</
     osmUrl = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
 
 var grayscale = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
-    satellite = L.tileLayer(mbUrl, {id: 'mapbox.satellite',   attribution: mbAttr}),
-    streets = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr}),
+    satellite = L.tileLayer(mbUrl, {id: 'mapbox.satellite', attribution: mbAttr}),
+    streets = L.tileLayer(mbUrl, {id: 'mapbox.streets', attribution: mbAttr}),
     osm = L.tileLayer(osmUrl, {attribution: osmAttr});
 
 // Styles
@@ -52,7 +52,7 @@ var zonesFinesStyle = {"weight": 2, "color": "#ff7800", "opacity": 1, fillColor:
     polygonStyle = {"weight": 1, "color": "white", "opacity": 1, fillColor: 'rgb(52, 196, 85)', fillOpacity: 0.25};
 
 // Markers
-var thalesMarker = L.marker([43.536916, 1.513079], {icon : workMarkerSymbol}).bindPopup("<b>Travail</b><br />Thalès Service Labège");
+var thalesMarker = L.marker([43.536916, 1.513079], {icon: workMarkerSymbol}).bindPopup("<b>Travail</b><br />Thalès Service Labège");
 
 // JSONs
 var zonesLargesTLSJson = L.geoJson(
@@ -64,6 +64,9 @@ var zonesLargesTLSJson = L.geoJson(
         }
     }
 );
+//--------------------------------------------------------------------------------------------//
+//--------------------------------------BASICS FUNCTIONS--------------------------------------//
+
 
 //--------------------------------------------------------------------------------------------//
 //-------------------------------------MAP INITIALIZATION-------------------------------------//
@@ -78,7 +81,6 @@ var checkForUrlTransmission = function () {
     console.log('checkForUrlTransmission');
     var myCurrentUrl = window.location.href,
         paramURL = null,
-        paramURLPopup = null,
         myUrlRegexDev = /\/index\.html$/,
         myUrlRegexProd = /\/mappart\/?$/,
         myUrlParamRegex = /#([0-9]{1,2})\/([0-9]{1,2}\.?[0-9]*)\/(-?[0-9]{1,2}\.?[0-9]*)$/; /* like: #12/44.8369/-0.5713 */
@@ -86,7 +88,7 @@ var checkForUrlTransmission = function () {
         console.log('Il y a des paramètres en URL');
         paramURL = myUrlParamRegex.exec(myCurrentUrl);
         console.log("paramURL : ", paramURL, "\nZoom : ", RegExp.$1, "\nLatitude : ", RegExp.$2, "\nLongitude : ", RegExp.$3);
-        L.marker([RegExp.$2, RegExp.$3], {icon : alertMarkerSymbol}).addTo(mymap).bindPopup("<h6>Position transmise</h6>").openPopup();
+        L.marker([RegExp.$2, RegExp.$3], {icon: alertMarkerSymbol}).addTo(mymap).bindPopup("<h6>Position transmise</h6>").openPopup();
     }
 };
 
@@ -102,7 +104,7 @@ mymap.setView([43.599560, 1.441079], 12).setMaxBounds(bounds);
 mymap.options.minZoom = 12;
 
 // Hash the map (zoom/lon/lat)
-var hash = new L.Hash(mymap);
+new L.Hash(mymap);
 
 // Basemaps for control
 var baseMaps = {
@@ -115,7 +117,7 @@ var baseMaps = {
 // Layers for control
 var overlayMaps = {
     "Thalès Service Labège": thalesMarker,
-    "Zones Larges Toulouse": zonesLargesTLSJson,
+    "Zones Larges Toulouse": zonesLargesTLSJson
 };
 
 // Controler
@@ -141,12 +143,12 @@ var addingData = function (layerToAdd, layerNameToAdd) {
     lcontrol.addOverlay(layerToAdd, layerNameToAdd);
 };
 
-L.easyButton('fa fa-sign-in', function (btn, mymap) {
+L.easyButton('fa fa-sign-in', function () {
     $('#loginModal').modal('show');
 }).addTo(mymap);
 
 // Send a mail with a link and the coordinates in the url
-L.easyButton('fa fa-envelope-o', function (btn, mymap) {
+L.easyButton('fa fa-envelope-o', function () {
     $('#emailLink').val(window.location.href);
     $('#sendMailModal').modal('show');
 }).addTo(mymap);
@@ -157,7 +159,7 @@ var onclickSendMailButton = function () {
         senderMail = $("#emailSenderMail").val(),
         senderMessage = $("#emailContent").val(),
         senderLink = $("#emailLink").val(),
-        bodyOfMailToLink = encodeURI("Hey c'est " + senderName + " (mail : " + senderMail + " ) ! " + senderMessage + senderLink ),
+        bodyOfMailToLink = encodeURI("Hey c'est " + senderName + " (mail : " + senderMail + " ) ! " + senderMessage + senderLink),
         mailToLink = "mailto:" + receiver + "?Subject=Mappart?body=" + bodyOfMailToLink;
 
     window.location.href = mailToLink;
@@ -201,12 +203,12 @@ var fromPointFeatureToLayer = function (featuresCreated, openDataName) {
         featuresCreated,
         {
             pointToLayer: function (feature, latlng) {
-                return new L.marker((latlng), {icon : transportMarkerSymbol});
+                return new L.marker((latlng), {icon: transportMarkerSymbol});
             },
             onEachFeature: function (feature, layer) {
                 var featureAttributes = "", attr;
                 for (attr in feature.properties) {
-                    if (typeof (feature.properties[attr]) !== "object") {
+                    if (typeof(feature.properties[attr]) !== "object") {
                         featureAttributes += attr + " : " + feature.properties[attr] + "<br />";
                     }
                 }
@@ -225,7 +227,7 @@ var fromPolygonFeatureToLayer = function (featuresCreated, openDataName) {
             onEachFeature: function (feature, layer) {
                 var featureAttributes = "", attr;
                 for (attr in feature.properties) {
-                    if (typeof (feature.properties[attr]) !== "object") {
+                    if (typeof(feature.properties[attr]) !== "object") {
                         featureAttributes += attr + " : " + feature.properties[attr] + "<br />";
                     }
                 }
@@ -278,17 +280,16 @@ var fromXhrToFeature = function (myResponse, openDataName) {
     var i,
         typeOfGeomArray = [],
         featuresCreated = {
-            "type" : "FeatureCollection",
-            "features" : []
+            "type": "FeatureCollection",
+            "features": []
         };
-    
     for (i = 0; i < myResponse.records.length; i += 1) {
         var typeOfGeom = myResponse.records[i].record.fields.geo_shape.geometry.type,
             theGeom = myResponse.records[i].record.fields.geo_shape.geometry.coordinates,
             featureObject = new FeatureConstructor(
                 {
-                    type : typeOfGeom,
-                    coordinates : theGeom
+                    type: typeOfGeom,
+                    coordinates: theGeom
                 },
                 myResponse.records[i].record.fields
             );
