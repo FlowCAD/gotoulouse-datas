@@ -38,8 +38,8 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="email" class="control-label">Adresse email : </label>
-                            <input type="email" class="form-control" id="email" name="email" required=true />
+                            <label for="emailForLogin" class="control-label">Adresse email : </label>
+                            <input type="emailForLogin" class="form-control" id="emailForLogin" name="emailForLogin" required=true />
                         </div>
                         <div class="form-group">
                             <label for="password" class="control-label">Mot de passe : </label>
@@ -51,9 +51,9 @@
                             <button class="btn btn-secondary" id="quickstart-password-reset" name="verify-email">Mot de passe oublié ?</button>
                         </div>
                         <div class="quickstart-user-details-container">
-                            Firebase sign-in status: <span id="quickstart-sign-in-status">Unknown</span>
-                            <div>Firebase auth <code>currentUser</code> object value:</div>
-                            <pre><code id="quickstart-account-details">null</code></pre>
+                            Status:
+                            <br />
+                            <span id="quickstart-sign-in-status">Déconnecté</span>
                         </div>
                     </div>
                     <div class="modal-footer">
