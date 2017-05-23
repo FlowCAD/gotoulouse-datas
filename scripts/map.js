@@ -153,12 +153,10 @@ L.easyButton('fa fa-envelope-o', function () {
 var onclickSendMailButton = function () {
     var receiver = $("#emailAdress").val(),
         senderName = $("#emailSender").val(),
-        senderMail = $("#emailSenderMail").val(),
         senderMessage = $("#emailContent").val(),
         senderLink = $("#emailLink").val(),
-        bodyOfMailToLink = encodeURI("Hey c'est " + senderName + " (mail : " + senderMail + " ) ! " + senderMessage + senderLink),
-        mailToLink = "mailto:" + receiver + "?Subject=Mappart?body=" + bodyOfMailToLink;
-
+        bodyOfMailToLink = encodeURI(senderMessage + "\r\n" + senderLink + "\r\n \r\n" + senderName),
+        mailToLink = "mailto:" + receiver + "?subject=Mappart&body=" + bodyOfMailToLink;
     window.location.href = mailToLink;
 };
 
