@@ -3,7 +3,7 @@
     "id": "busquets1",
     "libelle": "Busquets",
     "type": "Magasin",
-    "sous-type": "Vin & Spiritueux"
+    "sous-type": "Vin & Spiritueux",
     "x": "1.4442",
     "y": "43.6055",
     "adresse": "10 Rue de Rémusat, 31000 Toulouse",
@@ -14,7 +14,7 @@
     "id": "busquets2",
     "libelle": "Busquets",
     "type": "Magasin",
-    "sous-type": "Vin & Spiritueux"
+    "sous-type": "Vin & Spiritueux",
     "x": "1.4462",
     "y": "43.6065",
     "adresse": "21 place Victor Hugo, 31000 Toulouse",
