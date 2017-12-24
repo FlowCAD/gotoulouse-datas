@@ -1,0 +1,24 @@
+[
+  {
+    "id": "busquets1",
+    "libelle": "Busquets",
+    "type": "Magasin",
+    "sous-type": "Vin & Spiritueux"
+    "x": "1.4442",
+    "y": "43.6055",
+    "adresse": "10 Rue de Rémusat, 31000 Toulouse",
+    "horaires": "Lundi : 14h15-19h15, du Mardi au Samedi : 10h-13h / 14h15-19h15",
+    "commentaire": null
+  },
+  {
+    "id": "busquets2",
+    "libelle": "Busquets",
+    "type": "Magasin",
+    "sous-type": "Vin & Spiritueux"
+    "x": "1.4462",
+    "y": "43.6065",
+    "adresse": "21 place Victor Hugo, 31000 Toulouse",
+    "horaires": "Du Mardi au Samedi : 9h30-13h30/14h30-19h30  Dimanche : 10h00-13h",
+    "commentaire": null
+  }
+]
