@@ -26,7 +26,6 @@
     "latitude": "43.6065",
     "longitude": "1.4462",
     "adresse": "21 place Victor Hugo, 31000 Toulouse",
-    "horaires": "Du Mardi au Samedi : 9h30-13h30/14h30-19h30  Dimanche : 10h00-13h",
     "horaires": {
       "Lundi" : "Fermé",
       "Mardi" : "9h30-13h30 / 14h30-19h30",
@@ -37,5 +36,43 @@
       "Dimanche" : "10h-13h"
     },
     "commentaire": null
+  },
+  {
+    "id": "latienda",
+    "libelle": "La Tienda - Epicerie espagnole",
+    "type": "Magasin",
+    "sous-type": ["Vin & Spiritueux", "Epicerie Fine", "Bar à Tapas"],
+    "latitude": "43.5949",
+    "longitude": "1.4441",
+    "adresse": "23 place du Salin, 31000 Toulouse", 
+    "horaires": {
+      "Lundi" : "10h–14h30 / 16h–20h",
+      "Mardi" : "10h–14h30 / 16h–20h",
+      "Mercredi" : "10h–14h30 / 16h–20h",
+      "Jeudi" : "10h–14h30 / 16h–20h",
+      "Vendredi" : "10h–14h30 / 16h–20h",
+      "Samedi" : "10h–14h30 / 16h–20h",
+      "Dimanche" : "Fermé"
+    },
+    "commentaire": "Epicerie fine espagnole avec dégustation sur place de jambons, fromages, charcuteries, tapas, bières et vins!"
+  },
+  {
+    "id": "laboutiquedessaveurs",
+    "libelle": "La Boutique des Saveurs",
+    "type": "Magasin",
+    "sous-type": ["Vin & Spiritueux", "Epicerie Fine"],
+    "latitude": "43.5978",
+    "longitude": "1.4456",
+    "adresse": "1 Rue Ozenne, 31000 Toulouse", 
+    "horaires": {
+      "Lundi" : "16h–20h",
+      "Mardi" : "9h30–13h30 / 15h–20h",
+      "Mercredi" : "9h30–13h30 / 15h–20h",
+      "Jeudi" : "9h30–20h",
+      "Vendredi" : "9h30–20h",
+      "Samedi" : "9h30–20h",
+      "Dimanche" : "10h–13h30"
+    },
+    "commentaire": "Vins du monde, bières artisanales/craft, spiritueux, chocolats, caviar, épices, produits du terroir et autres surprises gustatives..."
   }
 ]
