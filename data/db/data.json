@@ -3,22 +3,39 @@
     "id": "busquets1",
     "libelle": "Busquets",
     "type": "Magasin",
-    "sous-type": "Vin & Spiritueux",
+    "sous-type": ["Vin & Spiritueux", "Epicerie Fine"],
     "latitude": "43.6055",
     "longitude": "1.4442",
     "adresse": "10 Rue de Rémusat, 31000 Toulouse",
-    "horaires": "Lundi : 14h15-19h15, du Mardi au Samedi : 10h-13h / 14h15-19h15",
+    "horaires": {
+      "Lundi" : "14h15-19h15",
+      "Mardi" : "10h-13h / 14h15-19h15",
+      "Mercredi" : "10h-13h / 14h15-19h15",
+      "Jeudi" : "10h-13h / 14h15-19h15",
+      "Vendredi" : "10h-13h / 14h15-19h15",
+      "Samedi" : "10h-13h / 14h15-19h15",
+      "Dimanche" : "Fermé"
+    },
     "commentaire": null
   },
   {
     "id": "busquets2",
     "libelle": "Busquets",
     "type": "Magasin",
-    "sous-type": "Vin & Spiritueux",
+    "sous-type": ["Vin & Spiritueux", "Epicerie Fine"],
     "latitude": "43.6065",
     "longitude": "1.4462",
     "adresse": "21 place Victor Hugo, 31000 Toulouse",
     "horaires": "Du Mardi au Samedi : 9h30-13h30/14h30-19h30  Dimanche : 10h00-13h",
+    "horaires": {
+      "Lundi" : "Fermé",
+      "Mardi" : "9h30-13h30 / 14h30-19h30",
+      "Mercredi" : "9h30-13h30 / 14h30-19h30",
+      "Jeudi" : "9h30-13h30 / 14h30-19h30",
+      "Vendredi" : "9h30-13h30 / 14h30-19h30",
+      "Samedi" : "9h30-13h30 / 14h30-19h30",
+      "Dimanche" : "10h-13h"
+    },
     "commentaire": null
   }
 ]
