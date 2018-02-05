@@ -74,5 +74,62 @@
       "Dimanche" : "10h–13h30"
     },
     "commentaire": "Vins du monde, bières artisanales/craft, spiritueux, chocolats, caviar, épices, produits du terroir et autres surprises gustatives..."
+  },
+  {
+    "id": "caminito",
+    "libelle": "Caminito",
+    "type": "Restaurant",
+    "sous-type": ["Restaurant argentin"],
+    "latitude": "43.6031",
+    "longitude": "1.4423",
+    "adresse": "3 Rue des Gestes, 31000 Toulouse", 
+    "horaires": {
+      "Lundi" : "12h–15h / 19h–23h30",
+      "Mardi" : "12h–15h / 19h–23h30",
+      "Mercredi" : "12h–15h / 19h–23h30",
+      "Jeudi" : "12h–15h / 19h–23h30",
+      "Vendredi" : "12h–15h / 19h–23h30",
+      "Samedi" : "12h–16h / 19h–23h30",
+      "Dimanche" : "Fermé"
+    },
+    "commentaire": ""
+  },
+  {
+    "id": "sandia",
+    "libelle": "La Sandia",
+    "type": "Restaurant",
+    "sous-type": ["Restaurant mexicain"],
+    "latitude": "43.6048",
+    "longitude": "1.4523",
+    "adresse": "8 Rue Palaprat, 31000 Toulouse", 
+    "horaires": {
+      "Lundi" : "20h–22h45",
+      "Mardi" : "20h–22h45",
+      "Mercredi" : "20h–22h45",
+      "Jeudi" : "20h–22h45",
+      "Vendredi" : "20h–22h45",
+      "Samedi" : "20h–22h45",
+      "Dimanche" : "Fermé"
+    },
+    "commentaire": ""
+  },
+  {
+    "id": "senortacos",
+    "libelle": "Taquería Señor Taco",
+    "type": "Restaurant",
+    "sous-type": ["Restaurant mexicain"],
+    "latitude": "43.6062",
+    "longitude": "1.451",
+    "adresse": "24 Rue des 7 Troubadours, 31000 Toulouse", 
+    "horaires": {
+      "Lundi" : "Fermé",
+      "Mardi" : "12h–14h / 19h–22h30",
+      "Mercredi" : "12h–14h / 19h–22h30",
+      "Jeudi" : "12h–14h / 19h–22h30",
+      "Vendredi" : "12h–14h / 19h–22h30",
+      "Samedi" : "12h–22h30",
+      "Dimanche" : "Fermé"
+    },
+    "commentaire": ""
   }
 ]
