@@ -1,9 +1,9 @@
-# mappart
+# gÔToulouse-Datas
 ## Description
-Trouver l'emplacement idéal d'un logement à Toulouse
+Toutes les données qui seront utilisées par gÔToulouse.
 
 ## Résultat
-Voir https://flowcad.github.io/mappart/
+Voir https://flowcad.github.io/gotoulouse-datas/
 
 ## Todo
 * Automatiser la lecture des XHR puis faire un "widget open data"
