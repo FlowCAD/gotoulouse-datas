@@ -14,11 +14,11 @@ var northEastBound = L.latLng(43.68, 1.68),
     bounds = L.latLngBounds(northEastBound, southWestBound);
 
 // Background layers
-var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-        'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+var mbAttr = 'Map data &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+        '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+        'Imagery © <a href="https://mapbox.com">Mapbox</a>',
     mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZmxvcmlhbmNhZG96IiwiYSI6ImNqMGkzN3ZzYzAwM3MzMm80MDZ6eGQ2bmwifQ.BMmvDcBnXoWT8waOnIKNBg',
-    osmAttr = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+    osmAttr = '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors',
     osmUrl = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
 
 var grayscale = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
