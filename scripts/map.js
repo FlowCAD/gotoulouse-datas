@@ -1,22 +1,7 @@
 /*jslint node: true*/
 /*jslint es5: true */
-/*global L, $, zonesLargesTLS, alert*/
+/*global L, $, zonesLargesTLS, datas, alert*/
 "use strict";
-
-//--------------------------------------------------------------------------------------------//
-//---------------------------------------DATABASE INIT----------------------------------------//
-// Initialize Firebase
-var config = {
-    apiKey: "AIzaSyCAa7DgIILyVHWgoWluxoWqy5lOsYxHQsA",
-    authDomain: "test-457af.firebaseapp.com",
-    databaseURL: "https://test-457af.firebaseio.com",
-    projectId: "test-457af",
-    storageBucket: "test-457af.appspot.com",
-    messagingSenderId: "549265380497"
-};
-firebase.initializeApp(config);
-//var dbRef = firebase.database().ref().child('Points');
-//dbRef.on('value', snap => console.log("dbRef", snap.val()));
 
 //--------------------------------------------------------------------------------------------//
 //--------------------------------------DATA DEFINITIONS--------------------------------------//
@@ -43,19 +28,20 @@ var grayscale = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
 
 // Styles
 var alertMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-exclamation', prefix: 'fa', color: 'orange', iconColor: 'white'}),
-    workMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-briefcase', prefix: 'fa', color: 'darkblue', iconColor: 'white'}),
-    homeMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-home', prefix: 'fa', color: 'green', iconColor: 'white'}),
+/*    workMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-briefcase', prefix: 'fa', color: 'darkblue', iconColor: 'white'}),
+    homeMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-home', prefix: 'fa', color: 'green', iconColor: 'white'}),*/
     transportMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-subway', prefix: 'fa', color: 'blue', iconColor: 'white'});
 
-var zonesFinesStyle = {"weight": 2, "color": "#ff7800", "opacity": 1, fillColor: '#ff7800', fillOpacity: 0.4},
+var /*zonesFinesStyle = {"weight": 2, "color": "#ff7800", "opacity": 1, fillColor: '#ff7800', fillOpacity: 0.4},*/
     zonesLargesStyle = {"weight": 1, "color": "#0000FF", "opacity": 1, fillColor: '#0000FF', fillOpacity: 0.25},
     polygonStyle = {"weight": 1, "color": "white", "opacity": 1, fillColor: 'rgb(52, 196, 85)', fillOpacity: 0.25};
 
 // Markers
-var thalesMarker = L.marker([43.536916, 1.513079], {icon: workMarkerSymbol}).bindPopup("<b>Travail</b><br />Thalès Service Labège");
+/*var thalesMarker = L.marker([43.536916, 1.513079], {icon: workMarkerSymbol}).bindPopup("<b>Travail</b><br />Thalès Service Labège");*/
+var spotsMarker = L.marker([43.53, 1.51], {icon: alertMarkerSymbol}).bindPopup("<b>Coucou</b><br />Test");
 
 // JSONs
-var zonesLargesTLSJson = L.geoJson(
+/*var zonesLargesTLSJson = L.geoJson(
     zonesLargesTLS,
     {
         style: zonesLargesStyle,
@@ -63,14 +49,24 @@ var zonesLargesTLSJson = L.geoJson(
             layer.bindPopup("<b> Quartier : " + feature.properties.libelle_du + "</b>");
         }
     }
-);
+);*/
+var datasJson = L.geoJson(
+    datas,
+    {
+        style: alertMarkerSymbol,
+        onEachFeature: function (feature, layer) {
+            layer.bindPopup("<b> Michel : " + feature.properties.libelle + "</b>");
+        }
+    }
+)
 
 //--------------------------------------------------------------------------------------------//
 //-------------------------------------MAP INITIALIZATION-------------------------------------//
 var initParam = function () {
     console.log("fonction initParam !");
-    thalesMarker.addTo(mymap);
-    zonesLargesTLSJson.addTo(mymap);
+    /*thalesMarker.addTo(mymap);
+    zonesLargesTLSJson.addTo(mymap);*/
+    datasJson.addTo(mymap);
     osm.addTo(mymap);
 };
 
@@ -79,7 +75,7 @@ var checkForUrlTransmission = function () {
     var myCurrentUrl = window.location.href,
         paramURL = null,
         myUrlRegexDev = /\/index\.html$/,
-        myUrlRegexProd = /\/mappart\/?$/,
+        myUrlRegexProd = /\/gotoulouse-datas\/?$/,
         myUrlParamRegex = /#([0-9]{1,2})\/([0-9]{1,2}\.?[0-9]*)\/(-?[0-9]{1,2}\.?[0-9]*)$/; /* like: #12/44.8369/-0.5713 */
     if (!myUrlRegexDev.test(myCurrentUrl) && !myUrlRegexProd.test(myCurrentUrl)) {
         console.log('Il y a des paramètres en URL');
@@ -113,8 +109,9 @@ var baseMaps = {
 
 // Layers for control
 var overlayMaps = {
-    "Thalès Service Labège": thalesMarker,
-    "Zones Larges Toulouse": zonesLargesTLSJson
+    "Mes Spots": datasJson,
+    /*"Thalès Service Labège": datasJson,
+    "Zones Larges Toulouse": zonesLargesTLSJson*/
 };
 
 // Controler
@@ -140,10 +137,6 @@ var addingData = function (layerToAdd, layerNameToAdd) {
     lcontrol.addOverlay(layerToAdd, layerNameToAdd);
 };
 
-L.easyButton('fa fa-sign-in', function () {
-    $('#loginModal').modal('show');
-}).addTo(mymap);
-
 // Send a mail with a link and the coordinates in the url
 L.easyButton('fa fa-envelope-o', function () {
     $('#emailLink').val(window.location.href);
@@ -156,7 +149,7 @@ var onclickSendMailButton = function () {
         senderMessage = $("#emailContent").val(),
         senderLink = $("#emailLink").val(),
         bodyOfMailToLink = encodeURI(senderMessage + "\r\n" + senderLink + "\r\n \r\n" + senderName),
-        mailToLink = "mailto:" + receiver + "?subject=Mappart&body=" + bodyOfMailToLink;
+        mailToLink = "mailto:" + receiver + "?subject=gÔToulouse&body=" + bodyOfMailToLink;
     window.location.href = mailToLink;
 };
 
@@ -321,130 +314,3 @@ var openDataDistricts = ['https://data.toulouse-metropole.fr/api/v2/catalog/data
     openDataSubwayStations = ['https://data.toulouse-metropole.fr/api/v2/catalog/datasets/stations-de-metro/records?rows=100&pretty=true&timezone=UTC', "Stations de métro"];
 myXHRSender(openDataDistricts);
 myXHRSender(openDataSubwayStations);
-
-
-//Login with firebase
-function toggleSignIn() {
-    if (firebase.auth().currentUser) {
-        //If signed in, signout
-        firebase.auth().signOut();
-    } else {
-        var email = document.getElementById('emailForLogin').value,
-            password = document.getElementById('password').value;
-        if (email.length < 4) {
-            alert('Saisir une adresse mail valide.');
-            return;
-        }
-        if (password.length < 4) {
-            alert('Mot de passe invalide.');
-            return;
-        }
-        // Sign in with email and password.
-        firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
-            var errorCode = error.code,
-                errorMessage = error.message;
-            if (errorCode === 'auth/wrong-password') {
-                alert('Mauvais mot de passe.');
-            } else if (errorCode === 'auth/user-not-found') {
-                alert('Utilisateur non reconnu, veuillez créer un compte.');
-            } else {
-                alert(errorMessage);
-            }
-            console.log("error :", error);
-            document.getElementById('quickstart-sign-in').disabled = false;
-        });
-    }
-    document.getElementById('quickstart-sign-in').disabled = true;
-}
-
-function handleSignUp() {
-    var email = document.getElementById('emailForLogin').value,
-        password = document.getElementById('password').value;
-    if (email.length < 4) {
-        alert('Saisir une adresse mail valide.');
-        return;
-    }
-    if (password.length < 4) {
-        alert('Mot de passe invalide.');
-        return;
-    }
-    // Sign up with email and pass.
-    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
-        var errorCode = error.code,
-            errorMessage = error.message;
-        if (errorCode === 'auth/weak-password') {
-            alert('Le mot de passe est trop faible.');
-        } else if (errorCode === 'auth/email-already-in-use') {
-            alert('Cette adresse mail est déjà utilisée.');
-        } else {
-            alert(errorMessage);
-        }
-        console.log(error);
-    });
-}
-
-function sendEmailVerification() {
-    firebase.auth().currentUser.sendEmailVerification().then(function () {
-        alert('Email de vérification envoyé !');
-    });
-}
-
-function sendPasswordReset() {
-    var email = document.getElementById('emailForLogin').value;
-    firebase.auth().sendPasswordResetEmail(email).then(function () {
-        alert('Email de réinitialisation du mot de passe envoyé!');
-    }).catch(function (error) {
-        var errorCode = error.code,
-            errorMessage = error.message;
-        if (errorCode === 'auth/invalid-email') {
-            alert('Adresse mail invalide.');
-        } else if (errorCode === 'auth/user-not-found') {
-            alert('Utilisateur introuvable.');
-        } else {
-            alert(errorMessage);
-        }
-        console.log(error);
-    });
-}
-
-function initApp() {
-    // Listening for auth state changes.
-    firebase.auth().onAuthStateChanged(function (user) {
-        document.getElementById('quickstart-verify-email').disabled = true;
-        if (user) {
-            // User is signed in.
-            var displayName = user.displayName,
-                email = user.email,
-                emailVerified = user.emailVerified,
-                photoURL = user.photoURL,
-                isAnonymous = user.isAnonymous,
-                uid = user.uid,
-                providerData = user.providerData,
-                myUser = null;
-            console.log("Identifiant :", uid, "\n Utilisateur :", displayName, "\n Email : ", email, "\n Email vérifié : ", emailVerified, "\n Photo : ", photoURL, "\n Anonyme : ", isAnonymous, "\n providerData : ", providerData);
-            if (user.displayName === null) {
-                myUser = user.email;
-            } else {
-                myUser = user.displayName;
-            }
-            document.getElementById('quickstart-sign-in-status').textContent = 'Connecté avec ' + myUser;
-            document.getElementById('quickstart-sign-in').textContent = 'Se déconnecter';
-            if (!emailVerified) {
-                document.getElementById('quickstart-verify-email').disabled = false;
-            }
-        } else {
-            // User is signed out.
-            document.getElementById('quickstart-sign-in-status').textContent = 'déconnecté';
-            document.getElementById('quickstart-sign-in').textContent = 'Se connecter';
-        }
-            document.getElementById('quickstart-sign-in').disabled = false;
-    });
-    document.getElementById('quickstart-sign-in').addEventListener('click', toggleSignIn, false);
-    document.getElementById('quickstart-sign-up').addEventListener('click', handleSignUp, false);
-    document.getElementById('quickstart-verify-email').addEventListener('click', sendEmailVerification, false);
-    document.getElementById('quickstart-password-reset').addEventListener('click', sendPasswordReset, false);
-}
-
-window.onload = function () {
-    initApp();
-};
