@@ -89,20 +89,17 @@ mymap.on("load", function () {
 //mymap.setView([43.6, 1.44], 12).setMaxBounds(bounds);
 function onLocationFound(e) {
     var radius = e.accuracy / 2;
-
-    L.marker(e.latlng).addTo(mymap)
-        .bindPopup("You are within " + radius + " meters from this point").openPopup();
-
+    L.marker(e.latlng, {icon: alertMarkerSymbol}).addTo(mymap)
+        .bindPopup("Vous êtes ici ! (à environ " + Math.round(radius) + " mètres)").openPopup();
     L.circle(e.latlng, radius).addTo(mymap);
 }
 
 function onLocationError(e) {
-    alert(e.message);
+    alert("Il y a eu un problème ! ", e.message);
 }
-
 mymap.on('locationfound', onLocationFound);
 mymap.on('locationerror', onLocationError);
-mymap.locate({setView: true, maxZoom: 16});
+mymap.locate({setView: true, maxZoom: 16}).setMaxBounds(bounds);
 mymap.options.minZoom = 12;
 
 // Hash the map (zoom/lon/lat)
