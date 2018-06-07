@@ -86,17 +86,18 @@ mymap.on("load", function () {
 
 //--------------------------------------------------------------------------------------------//
 //---------------------------------------MAP PROPERTIES---------------------------------------//
-//mymap.setView([43.6, 1.44], 12).setMaxBounds(bounds);
+// Geolocation of the user and initialization of the map view
 function onLocationFound(e) {
     var radius = e.accuracy / 2;
-    L.marker(e.latlng, {icon: alertMarkerSymbol}).addTo(mymap)
-        .bindPopup("Vous êtes ici ! (à environ " + Math.round(radius) + " mètres)").openPopup();
+    L.marker(e.latlng, {icon: homeMarkerSymbol}).addTo(mymap)
+        .bindPopup("Vous êtes ici ! (à " + Math.round(radius) + " mètres près)").openPopup();
     L.circle(e.latlng, radius).addTo(mymap);
 }
 
 function onLocationError(e) {
-    alert("Il y a eu un problème ! ", e.message);
+    alert("Il y a eu un problème avec la géolocalisation ! Vérifiez les paramètres de votre navigateur. ", e.message);
 }
+
 mymap.on('locationfound', onLocationFound);
 mymap.on('locationerror', onLocationError);
 mymap.locate({setView: true, maxZoom: 16}).setMaxBounds(bounds);
