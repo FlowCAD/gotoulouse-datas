@@ -58,6 +58,62 @@ var datasJson = L.geoJson(
         }
     }
 )
+// geoLayer = L.geoJson(json, {
+
+//     onEachFeature: function(feature, layer) {
+
+//       var popupText = "<b>Magnitude:</b> " + feature.properties.mag +
+//         "<br><b>Location:</b> " + feature.properties.place +
+//         "<br><a href='" + feature.properties.url + "'>More info</a>";
+
+//       layer.bindPopup(popupText, {
+//         closeButton: true,
+//         offset: L.point(0, -20)
+//       });
+//       layer.on('click', function() {
+//         layer.openPopup();
+//       });
+//     },
+
+//     pointToLayer: function(feature, latlng) {
+//     var mag = feature.properties.mag;
+//     var marker;
+    
+//     if (mag >= 4.0) {
+//         marker = new L.marker(latlng, {icon: L.AwesomeMarkers.icon({icon: 'cog', prefix: 'glyphicon',markerColor: 'cadetblue'}) }); 
+//       }
+//       else if (mag >= 3.0) {
+//         marker = new L.marker(latlng, {icon: L.AwesomeMarkers.icon({icon: 'coffee', prefix: 'glyphicon',markerColor: 'black'}) });
+//       } else if (mag >= 2.0) {
+//         marker = new L.marker(latlng, {icon: L.AwesomeMarkers.icon({icon: 'spinner', markerColor: 'red', prefix: 'fa', spin:true}) });
+//       } else {
+//         marker = new L.marker(latlng, {icon: L.AwesomeMarkers.icon({icon: 'star', prefix: 'glyphicon',markerColor: 'orange'}) });
+//       }
+//     return marker;
+//     }
+//   }).addTo(map);
+// });
+// var datasJson = L.geoJson(datas, {
+//     onEachFeature: function (feature, layer) {
+//         var popupText = "<b>" + feature.properties.libelle + "</b><br />" + feature.properties.genre + "<br />" + feature.properties.sousgenre;
+//         layer.bindPopup(popupText, {
+//             closeButton: true,
+//             offset: L.point(0, -20)
+//         });
+//         layer.on('click', function() {
+//             layer.openPopup();
+//         });
+//     },
+//     pointToLayer: function(feature, latlng) {
+//         var genre = feature.properties.genre;
+//         var marker;
+//         if (genre == "Magasin") {
+//             marker = new L.marker(latlng, {icon: homeMarkerSymbol});
+//         } else {
+//             marker = new L.marker(latlng, {icon: alertMarkerSymbol});
+//         }
+//     }
+// });
 
 //--------------------------------------------------------------------------------------------//
 //-------------------------------------MAP INITIALIZATION-------------------------------------//
