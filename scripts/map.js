@@ -1,6 +1,6 @@
 /*jslint node: true*/
 /*jslint es5: true */
-/*global L, $, zonesLargesTLS, datas, alert*/
+/*global L, $, datas, alert*/
 "use strict";
 
 //--------------------------------------------------------------------------------------------//
@@ -54,7 +54,7 @@ var datasJson = L.geoJson(
     {
         style: alertMarkerSymbol,
         onEachFeature: function (feature, layer) {
-            layer.bindPopup("<b> Michel : " + feature.properties.libelle + "</b>");
+            layer.bindPopup("<b>" + feature.properties.libelle + "</b><br />" + feature.properties.genre + "<br />" + feature.properties.sousgenre);
         }
     }
 )
