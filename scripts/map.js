@@ -14,12 +14,12 @@ var northEastBound = L.latLng(43.68, 1.68),
     bounds = L.latLngBounds(northEastBound, southWestBound);
 
 // Background layers
-var mbAttr = 'Map data &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-        '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-        'Imagery © <a href="https://mapbox.com">Mapbox</a>',
+var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+        'Imagery © <a href="http://mapbox.com">Mapbox</a>',
     mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZmxvcmlhbmNhZG96IiwiYSI6ImNqMGkzN3ZzYzAwM3MzMm80MDZ6eGQ2bmwifQ.BMmvDcBnXoWT8waOnIKNBg',
-    osmAttr = '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors',
-    osmUrl = 'https://tile.osm.org/{z}/{x}/{y}.png';
+    osmAttr = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+    osmUrl = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
 
 var grayscale = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
     satellite = L.tileLayer(mbUrl, {id: 'mapbox.satellite', attribution: mbAttr}),
@@ -28,17 +28,16 @@ var grayscale = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
 
 // Styles
 var alertMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-exclamation', prefix: 'fa', color: 'orange', iconColor: 'white'}),
-/*    workMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-briefcase', prefix: 'fa', color: 'darkblue', iconColor: 'white'}),
-    homeMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-home', prefix: 'fa', color: 'green', iconColor: 'white'}),*/
+    workMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-briefcase', prefix: 'fa', color: 'darkblue', iconColor: 'white'}),
+    homeMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-home', prefix: 'fa', color: 'green', iconColor: 'white'}),
     transportMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-subway', prefix: 'fa', color: 'blue', iconColor: 'white'});
 
 var /*zonesFinesStyle = {"weight": 2, "color": "#ff7800", "opacity": 1, fillColor: '#ff7800', fillOpacity: 0.4},*/
     zonesLargesStyle = {"weight": 1, "color": "#0000FF", "opacity": 1, fillColor: '#0000FF', fillOpacity: 0.25},
-    polygonStyle = {"weight": 1, "color": "white", "opacity": 1, fillColor: 'rgb(52, 196, 85)', fillOpacity: 0.25};
+    polygonStyle = {"weight": 1, "color": 'rgb(52, 196, 85)', "opacity": 1, fillColor: 'rgb(255, 255, 255)', fillOpacity: 0.15};
 
 // Markers
-/*var thalesMarker = L.marker([43.536916, 1.513079], {icon: workMarkerSymbol}).bindPopup("<b>Travail</b><br />Thalès Service Labège");*/
-var spotsMarker = L.marker([43.53, 1.51], {icon: alertMarkerSymbol}).bindPopup("<b>Coucou</b><br />Test");
+var spotsMarker = L.marker([43.6, 1.44], {icon: homeMarkerSymbol}).bindPopup("<b>Coucou</b><br />Test");
 
 // JSONs
 /*var zonesLargesTLSJson = L.geoJson(
@@ -63,37 +62,31 @@ var datasJson = L.geoJson(
 //--------------------------------------------------------------------------------------------//
 //-------------------------------------MAP INITIALIZATION-------------------------------------//
 var initParam = function () {
-    console.log("fonction initParam !");
-    /*thalesMarker.addTo(mymap);
-    zonesLargesTLSJson.addTo(mymap);*/
     datasJson.addTo(mymap);
-    osm.addTo(mymap);
+    streets.addTo(mymap);
 };
 
 var checkForUrlTransmission = function () {
-    console.log('checkForUrlTransmission');
     var myCurrentUrl = window.location.href,
         paramURL = null,
         myUrlRegexDev = /\/index\.html$/,
         myUrlRegexProd = /\/gotoulouse-datas\/?$/,
         myUrlParamRegex = /#([0-9]{1,2})\/([0-9]{1,2}\.?[0-9]*)\/(-?[0-9]{1,2}\.?[0-9]*)$/; /* like: #12/44.8369/-0.5713 */
     if (!myUrlRegexDev.test(myCurrentUrl) && !myUrlRegexProd.test(myCurrentUrl)) {
-        console.log('Il y a des paramètres en URL');
         paramURL = myUrlParamRegex.exec(myCurrentUrl);
-        console.log("paramURL : ", paramURL, "\nZoom : ", RegExp.$1, "\nLatitude : ", RegExp.$2, "\nLongitude : ", RegExp.$3);
+        console.log("There are parameters in the URL : ", paramURL, "\nZoom : ", RegExp.$1, "\nLatitude : ", RegExp.$2, "\nLongitude : ", RegExp.$3);
         L.marker([RegExp.$2, RegExp.$3], {icon: alertMarkerSymbol}).addTo(mymap).bindPopup("<h6>Position transmise</h6>").openPopup();
     }
 };
 
 mymap.on("load", function () {
-    console.log("map has loaded!");
     initParam();
     checkForUrlTransmission();
 });
 
 //--------------------------------------------------------------------------------------------//
 //---------------------------------------MAP PROPERTIES---------------------------------------//
-mymap.setView([43.599560, 1.441079], 12).setMaxBounds(bounds);
+mymap.setView([43.6, 1.44], 12).setMaxBounds(bounds);
 mymap.options.minZoom = 12;
 
 // Hash the map (zoom/lon/lat)
@@ -110,8 +103,7 @@ var baseMaps = {
 // Layers for control
 var overlayMaps = {
     "Mes Spots": datasJson,
-    /*"Thalès Service Labège": datasJson,
-    "Zones Larges Toulouse": zonesLargesTLSJson*/
+    "TEST" : spotsMarker
 };
 
 // Controler
@@ -184,7 +176,7 @@ mymap.on('click', function (e) {
         .openOn(mymap);
 });
 //--------------------------------------------------------------------------------------------//
-//------------------------------------------SANDBOX-------------------------------------------//
+//------------------------------------OPEN DATA FUNCTIONS-------------------------------------//
 //Go searching for openData from Toulouse Metropole
 var fromPointFeatureToLayer = function (featuresCreated, openDataName, openDataProperties) {
     var myData = L.geoJson(
@@ -231,7 +223,7 @@ var fromPolygonFeatureToLayer = function (featuresCreated, openDataName, openDat
 };
 
 var fromFeatureToFeatureType = function (featuresCreated, typeOfGeomArray, openDataName, openDataProperties) {
-    console.log(featuresCreated, typeOfGeomArray, openDataName, openDataProperties);
+    console.log("Datas to display: ", featuresCreated, typeOfGeomArray, openDataName, openDataProperties);
     if (typeOfGeomArray.length !== 1) {
         console.log("Il y a un problème avec le type de géométrie");
     }
