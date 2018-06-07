@@ -186,7 +186,7 @@ mymap.on('click', function (e) {
 //--------------------------------------------------------------------------------------------//
 //------------------------------------------SANDBOX-------------------------------------------//
 //Go searching for openData from Toulouse Metropole
-var fromPointFeatureToLayer = function (featuresCreated, openDataName) {
+var fromPointFeatureToLayer = function (featuresCreated, openDataName, openDataProperties) {
     var myData = L.geoJson(
         featuresCreated,
         {
@@ -194,10 +194,12 @@ var fromPointFeatureToLayer = function (featuresCreated, openDataName) {
                 return new L.marker((latlng), {icon: transportMarkerSymbol});
             },
             onEachFeature: function (feature, layer) {
-                var featureAttributes = "", attr;
-                for (attr in feature.properties) {
-                    if (typeof(feature.properties[attr]) !== "object") {
-                        featureAttributes += attr + " : " + feature.properties[attr] + "<br />";
+                var featureAttributes = "", prop, attr;
+                for (prop in openDataProperties) {
+                    for (attr in feature.properties) {
+                        if (typeof(feature.properties[attr]) !== "object" && attr === openDataProperties[prop].toLowerCase()) {
+                            featureAttributes += openDataProperties[prop] + " : " + feature.properties[attr] + "<br />";
+                        }
                     }
                 }
                 layer.bindPopup(featureAttributes);
@@ -207,16 +209,18 @@ var fromPointFeatureToLayer = function (featuresCreated, openDataName) {
     addingData(myData, openDataName);
 };
 
-var fromPolygonFeatureToLayer = function (featuresCreated, openDataName) {
+var fromPolygonFeatureToLayer = function (featuresCreated, openDataName, openDataProperties) {
     var myData = L.geoJson(
         featuresCreated,
         {
             style: polygonStyle,
             onEachFeature: function (feature, layer) {
-                var featureAttributes = "", attr;
-                for (attr in feature.properties) {
-                    if (typeof(feature.properties[attr]) !== "object") {
-                        featureAttributes += attr + " : " + feature.properties[attr] + "<br />";
+                var featureAttributes = "", prop, attr;
+                for (prop in openDataProperties) {
+                    for (attr in feature.properties) {
+                        if (typeof(feature.properties[attr]) !== "object" && attr === openDataProperties[prop].toLowerCase()) {
+                            featureAttributes += openDataProperties[prop] + " : " + feature.properties[attr] + "<br />";
+                        }
                     }
                 }
                 layer.bindPopup(featureAttributes);
@@ -226,29 +230,29 @@ var fromPolygonFeatureToLayer = function (featuresCreated, openDataName) {
     addingData(myData, openDataName);
 };
 
-var fromFeatureToFeatureType = function (featuresCreated, typeOfGeomArray, openDataName) {
-    console.log(featuresCreated, typeOfGeomArray, openDataName);
+var fromFeatureToFeatureType = function (featuresCreated, typeOfGeomArray, openDataName, openDataProperties) {
+    console.log(featuresCreated, typeOfGeomArray, openDataName, openDataProperties);
     if (typeOfGeomArray.length !== 1) {
         console.log("Il y a un problème avec le type de géométrie");
     }
     switch (typeOfGeomArray[0]) {
     case "Point":
-        fromPointFeatureToLayer(featuresCreated, openDataName);
+        fromPointFeatureToLayer(featuresCreated, openDataName, openDataProperties);
         break;
     case "LineString":
         console.log("Hey c'est une LineString !");
         break;
     case "Polygon":
-        fromPolygonFeatureToLayer(featuresCreated, openDataName);
+        fromPolygonFeatureToLayer(featuresCreated, openDataName, openDataProperties);
         break;
     case "MultiPoint":
-        fromPointFeatureToLayer(featuresCreated, openDataName);
+        fromPointFeatureToLayer(featuresCreated, openDataName, openDataProperties);
         break;
     case "MultiLineString":
         console.log("Hey c'est une MultiLineString !");
         break;
     case "MultiPolygon":
-        fromPolygonFeatureToLayer(featuresCreated, openDataName);
+        fromPolygonFeatureToLayer(featuresCreated, openDataName, openDataProperties);
         break;
     case "GeometryCollection":
         console.log("Hey c'est une GeometryCollection !");
@@ -264,7 +268,7 @@ var FeatureConstructor = function (geometry, properties) {
     this.type = "Feature";
 };
 
-var fromXhrToFeature = function (myResponse, openDataName) {
+var fromXhrToFeature = function (myResponse, openDataName, openDataProperties) {
     var i,
         typeOfGeomArray = [],
         featuresCreated = {
@@ -286,12 +290,13 @@ var fromXhrToFeature = function (myResponse, openDataName) {
         }
         featuresCreated.features.push(featureObject);
     }
-    fromFeatureToFeatureType(featuresCreated, typeOfGeomArray, openDataName);
+    fromFeatureToFeatureType(featuresCreated, typeOfGeomArray, openDataName, openDataProperties);
 };
 
 var myXHRSender = function (openData) {
     var openDataLink = openData[0],
         openDataName = openData[1],
+        openDataProperties = openData[2],
         openDataXHR = new XMLHttpRequest();
     openDataXHR.open('GET', openDataLink);
     openDataXHR.send(null);
@@ -302,15 +307,15 @@ var myXHRSender = function (openData) {
         if (openDataXHR.readyState === XMLHttpRequest.DONE) {
             if (openDataXHR.status === 200) {
                 var myResponse = JSON.parse(openDataXHR.responseText);
-                fromXhrToFeature(myResponse, openDataName);
+                fromXhrToFeature(myResponse, openDataName, openDataProperties);
             } else {
-                console.log("openDataXHR", openDataXHR.statusText);
+                console.log("openDataXHR ", openDataXHR.statusText);
             }
         }
     });
 };
 
-var openDataDistricts = ['https://data.toulouse-metropole.fr/api/v2/catalog/datasets/recensement-population-2012-grands-quartiers-logement/records?rows=100&fields=code_insee%2Creg2016%2Cdep%2Clibelle_du_grand_quartier%2Cgeo_shape&pretty=true&timezone=UTC', "Grands quartiers"],
-    openDataSubwayStations = ['https://data.toulouse-metropole.fr/api/v2/catalog/datasets/stations-de-metro/records?rows=100&pretty=true&timezone=UTC', "Stations de métro"];
+var openDataDistricts = ['https://data.toulouse-metropole.fr/api/v2/catalog/datasets/recensement-population-2012-grands-quartiers-logement/records?rows=100&fields=code_insee%2Creg2016%2Cdep%2Clibelle_du_grand_quartier%2Cgeo_shape&pretty=true&timezone=UTC', "Grands quartiers", ["libelle_du_grand_quartier"]],
+    openDataSubwayStations = ['https://data.toulouse-metropole.fr/api/v2/catalog/datasets/stations-de-metro/records?rows=100&pretty=true&timezone=UTC', "Stations de métro", ["Etat", "Ligne", "Nom"]];
 myXHRSender(openDataDistricts);
 myXHRSender(openDataSubwayStations);
