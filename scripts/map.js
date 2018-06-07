@@ -93,27 +93,28 @@ var datasJson = L.geoJson(
 //     }
 //   }).addTo(map);
 // });
-// var datasJson = L.geoJson(datas, {
-//     onEachFeature: function (feature, layer) {
-//         var popupText = "<b>" + feature.properties.libelle + "</b><br />" + feature.properties.genre + "<br />" + feature.properties.sousgenre;
-//         layer.bindPopup(popupText, {
-//             closeButton: true,
-//             offset: L.point(0, -20)
-//         });
-//         layer.on('click', function() {
-//             layer.openPopup();
-//         });
-//     },
-//     pointToLayer: function(feature, latlng) {
-//         var genre = feature.properties.genre;
-//         var marker;
-//         if (genre == "Magasin") {
-//             marker = new L.marker(latlng, {icon: homeMarkerSymbol});
-//         } else {
-//             marker = new L.marker(latlng, {icon: alertMarkerSymbol});
-//         }
-//     }
-// });
+var datasJson = L.geoJson(datas, {
+    onEachFeature: function (feature, layer) {
+        var popupText = "<b>" + feature.properties.libelle + "</b><br />" + feature.properties.genre + "<br />" + feature.properties.sousgenre;
+        layer.bindPopup(popupText, {
+            closeButton: true,
+            offset: L.point(0, -20)
+        });
+        layer.on('click', function() {
+            layer.openPopup();
+        });
+    },
+    pointToLayer: function(feature, latlng) {
+        var genre = feature.properties.genre;
+        var marker;
+        if (genre == "Magasin") {
+            marker = new L.marker(latlng, {icon: homeMarkerSymbol});
+        } else {
+            marker = new L.marker(latlng, {icon: alertMarkerSymbol});
+        }
+        return marker;
+    }
+});
 
 //--------------------------------------------------------------------------------------------//
 //-------------------------------------MAP INITIALIZATION-------------------------------------//
