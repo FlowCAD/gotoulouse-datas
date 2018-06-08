@@ -533,5 +533,113 @@ var datas = {
             },
             "commentaire": "Attention la bière est forte ! Vraiment !!"
         }
+    }, {
+        "type": "Feature",
+        "id": 0,
+        "geometry": {
+            "type": "Point",
+            "coordinates": [1.4501, 43.6070]
+        },
+        "properties":
+        {
+            "id": "thethirstymonkpub",
+            "libelle": "The Thirsty Monk Pub",
+            "genre": "Bar",
+            "sousgenre": ["Pub"],
+            "latitude": "43.6070",
+            "longitude": "1.4501",
+            "adresse": "33 Allée Jean Jaurès, 31000 Toulouse", 
+            "horaires": {
+                "Lundi" : "",
+                "Mardi" : "",
+                "Mercredi" : "",
+                "Jeudi" : "",
+                "Vendredi" : "",
+                "Samedi" : "",
+                "Dimanche" : ""
+            },
+            "commentaire": "Terrasse calay"
+        }
+    }, {
+        "type": "Feature",
+        "id": 0,
+        "geometry": {
+            "type": "Point",
+            "coordinates": [1.4524, 43.6058]
+        },
+        "properties":
+        {
+            "id": "aufutetamesure",
+            "libelle": "Au Fût et à mesure",
+            "genre": "Bar",
+            "sousgenre": ["Brasserie"],
+            "latitude": "43.6058",
+            "longitude": "1.4524",
+            "adresse": "20 Rue Gabriel Péri, 31000 Toulouse", 
+            "horaires": {
+                "Lundi" : "",
+                "Mardi" : "",
+                "Mercredi" : "",
+                "Jeudi" : "",
+                "Vendredi" : "",
+                "Samedi" : "",
+                "Dimanche" : ""
+            },
+            "commentaire": ""
+        }
+    }, {
+        "type": "Feature",
+        "id": 0,
+        "geometry": {
+            "type": "Point",
+            "coordinates": [1.451, 43.6057]
+        },
+        "properties":
+        {
+            "id": "lamaison",
+            "libelle": "La Maison",
+            "genre": "Bar",
+            "sousgenre": ["Bar à tapas", "Bar à cocktail"],
+            "latitude": "43.6057",
+            "longitude": "1.451",
+            "adresse": "9 Rue Gabriel Péri, 31000 Toulouse", 
+            "horaires": {
+                "Lundi" : "",
+                "Mardi" : "",
+                "Mercredi" : "",
+                "Jeudi" : "",
+                "Vendredi" : "",
+                "Samedi" : "",
+                "Dimanche" : ""
+            },
+            "commentaire": ""
+        }
+    }, {
+        "type": "Feature",
+        "id": 0,
+        "geometry": {
+            "type": "Point",
+            "coordinates": [1.4363, 43.6035]
+        },
+        "properties":
+        {
+            "id": "lejardindubarbasque",
+            "libelle": "Le Jardin du Bar Basque",
+            "genre": "Bar",
+            "sousgenre": ["Bar"],
+            "latitude": "43.6035",
+            "longitude": "1.4363",
+            "adresse": "7 Place Saint-Pierre, 31000 Toulouse", 
+            "horaires": {
+                "Lundi" : "",
+                "Mardi" : "",
+                "Mercredi" : "",
+                "Jeudi" : "",
+                "Vendredi" : "",
+                "Samedi" : "",
+                "Dimanche" : ""
+            },
+            "commentaire": ""
+        }
     }]
 }
