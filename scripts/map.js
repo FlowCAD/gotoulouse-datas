@@ -29,6 +29,7 @@ var grayscale = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
 // Styles
 var alertMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-exclamation', prefix: 'fa', color: 'orange', iconColor: 'white'}),
     homeMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-home', prefix: 'fa', color: 'green', iconColor: 'white'}),
+    hereMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-street-view', prefix: 'fa', color: 'orange', iconColor: 'white'}),
     transportMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-subway', prefix: 'fa', color: 'blue', iconColor: 'white'}),
     workMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-briefcase', prefix: 'fa', color: 'darkblue', iconColor: 'white'}),
     shopMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-shopping-basket', prefix: 'fa', color: 'green', iconColor: 'white'}),
@@ -103,7 +104,7 @@ mymap.on("load", function () {
 // Geolocation of the user and initialization of the map view
 function onLocationFound(e) {
     var radius = e.accuracy / 2;
-    L.marker(e.latlng, {icon: homeMarkerSymbol}).addTo(mymap)
+    L.marker(e.latlng, {icon: hereMarkerSymbol}).addTo(mymap)
         .bindPopup("Vous êtes ici ! (à " + Math.round(radius) + " mètres près)").openPopup();
     L.circle(e.latlng, radius).addTo(mymap);
 }

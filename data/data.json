@@ -169,5 +169,43 @@
       "Dimanche" : ""
     },
     "commentaire": "Terrasse posay"
+  },
+  {
+    "id": "theblacklion",
+    "libelle": "The Black Lion",
+    "genre": "Bar",
+    "sousgenre": ["Pub"],
+    "latitude": "43.5923",
+    "longitude": "1.4438",
+    "adresse": "4 Allées Paul Feuga, 31000 Toulouse", 
+    "horaires": {
+      "Lundi" : "",
+      "Mardi" : "",
+      "Mercredi" : "",
+      "Jeudi" : "",
+      "Vendredi" : "",
+      "Samedi" : "",
+      "Dimanche" : ""
+    },
+    "commentaire": ""
+  },
+  {
+    "id": "theblacklion",
+    "libelle": "The Black Lion",
+    "genre": "Bar",
+    "sousgenre": ["Pub"],
+    "latitude": "43.5923",
+    "longitude": "1.4438",
+    "adresse": "41 Rue Achille Viadieu, 31400 Toulouse", 
+    "horaires": {
+      "Lundi" : "",
+      "Mardi" : "",
+      "Mercredi" : "",
+      "Jeudi" : "",
+      "Vendredi" : "",
+      "Samedi" : "",
+      "Dimanche" : ""
+    },
+    "commentaire": ""
   }
 ]

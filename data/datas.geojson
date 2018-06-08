@@ -172,13 +172,13 @@ var datas = {
             "longitude": "1.4464",
             "adresse": "60 Grande Rue Saint-Michel, 31400 Toulouse", 
             "horaires": {
-            "Lundi" : "",
-            "Mardi" : "",
-            "Mercredi" : "",
-            "Jeudi" : "",
-            "Vendredi" : "",
-            "Samedi" : "",
-            "Dimanche" : ""
+                "Lundi" : "",
+                "Mardi" : "",
+                "Mercredi" : "",
+                "Jeudi" : "",
+                "Vendredi" : "",
+                "Samedi" : "",
+                "Dimanche" : ""
             },
             "commentaire": "Terrasse posay"
         }
@@ -190,15 +190,15 @@ var datas = {
             "coordinates": [1.4442, 43.5866]
         },
         "properties":
-            {
-                "id": "canailleclub",
-                "libelle": "Le Canaille Club",
-                "genre": "Bar",
-                "sousgenre": ["Bar, Guinguette"],
-                "latitude": "43.5866",
-                "longitude": "1.4442",
-                "adresse": "41 Rue Achille Viadieu, 31400 Toulouse", 
-                "horaires": {
+        {
+            "id": "canailleclub",
+            "libelle": "Le Canaille Club",
+            "genre": "Bar",
+            "sousgenre": ["Bar, Guinguette"],
+            "latitude": "43.5866",
+            "longitude": "1.4442",
+            "adresse": "41 Rue Achille Viadieu, 31400 Toulouse", 
+            "horaires": {
                 "Lundi" : "",
                 "Mardi" : "",
                 "Mercredi" : "",
@@ -206,8 +206,197 @@ var datas = {
                 "Vendredi" : "",
                 "Samedi" : "",
                 "Dimanche" : ""
-                },
-                "commentaire": "Terrasse posay"
-            }
+            },
+            "commentaire": "Terrasse posay"
+        }
+    }, {
+        "type": "Feature",
+        "id": 0,
+        "geometry": {
+            "type": "Point",
+            "coordinates": [1.4438, 43.5923]
+        },
+        "properties":
+        {
+            "id": "theblacklion",
+            "libelle": "The Black Lion",
+            "genre": "Bar",
+            "sousgenre": ["Pub"],
+            "latitude": "43.5923",
+            "longitude": "1.4438",
+            "adresse": "4 Allées Paul Feuga, 31000 Toulouse", 
+            "horaires": {
+                "Lundi" : "",
+                "Mardi" : "",
+                "Mercredi" : "",
+                "Jeudi" : "",
+                "Vendredi" : "",
+                "Samedi" : "",
+                "Dimanche" : ""
+            },
+            "commentaire": ""
+        }
+    }, {
+        "type": "Feature",
+        "id": 0,
+        "geometry": {
+            "type": "Point",
+            "coordinates": [1.4565, 43.6041]
+        },
+        "properties":
+        {
+            "id": "downTownfactory",
+            "libelle": "DownTown Factory",
+            "genre": "Boite",
+            "sousgenre": ["Boite"],
+            "latitude": "43.6041",
+            "longitude": "1.4565",
+            "adresse": "14 Boulevard Pierre Paul Riquet, 31000 Toulouse", 
+            "horaires": {
+                "Lundi" : "",
+                "Mardi" : "",
+                "Mercredi" : "",
+                "Jeudi" : "",
+                "Vendredi" : "",
+                "Samedi" : "",
+                "Dimanche" : ""
+            },
+            "commentaire": ""
+        }
+    }, {
+        "type": "Feature",
+        "id": 0,
+        "geometry": {
+            "type": "Point",
+            "coordinates": [1.4410, 43.6021]
+        },
+        "properties":
+        {
+            "id": "lafiancée",
+            "libelle": "La Fiancée",
+            "genre": "Café",
+            "sousgenre": ["Café", "Brunch"],
+            "latitude": "43.6021",
+            "longitude": "1.4565",
+            "adresse": "54 Rue Peyrolières, 31000 Toulouse", 
+            "horaires": {
+                "Lundi" : "",
+                "Mardi" : "",
+                "Mercredi" : "",
+                "Jeudi" : "",
+                "Vendredi" : "",
+                "Samedi" : "",
+                "Dimanche" : ""
+            },
+            "commentaire": ""
+        }
+    }, {
+        "type": "Feature",
+        "id": 0,
+        "geometry": {
+            "type": "Point",
+            "coordinates": [1.4407, 43.6006]
+        },
+        "properties":
+        {
+            "id": "lacomtesse",
+            "libelle": "La Comtesse",
+            "genre": "Bar",
+            "sousgenre": ["Bar à tapas"],
+            "latitude": "43.6006",
+            "longitude": "1.4407",
+            "adresse": "20 Rue Peyrolières, 31000 Toulouse", 
+            "horaires": {
+                "Lundi" : "",
+                "Mardi" : "",
+                "Mercredi" : "",
+                "Jeudi" : "",
+                "Vendredi" : "",
+                "Samedi" : "",
+                "Dimanche" : ""
+            },
+            "commentaire": ""
+        }
+    }, {
+        "type": "Feature",
+        "id": 0,
+        "geometry": {
+            "type": "Point",
+            "coordinates": [1.4416, 43.5999]
+        },
+        "properties":
+        {
+            "id": "thefourmonkeys",
+            "libelle": "The Four Monkeys",
+            "genre": "Bar",
+            "sousgenre": ["Pub"],
+            "latitude": "43.5999",
+            "longitude": "1.4416",
+            "adresse": "7 Rue de Metz, 31000 Toulouse", 
+            "horaires": {
+                "Lundi" : "",
+                "Mardi" : "",
+                "Mercredi" : "",
+                "Jeudi" : "",
+                "Vendredi" : "",
+                "Samedi" : "",
+                "Dimanche" : ""
+            },
+            "commentaire": ""
+        }
+    }, {
+        "type": "Feature",
+        "id": 0,
+        "geometry": {
+            "type": "Point",
+            "coordinates": [1.4451, 43.5995]
+        },
+        "properties":
+        {
+            "id": "lanciennebelgique",
+            "libelle": "L'Ancienne Belgique",
+            "genre": "Bar",
+            "sousgenre": ["Brasserie"],
+            "latitude": "43.5995",
+            "longitude": "1.4451",
+            "adresse": "16 Place de la Trinité, 31000 Toulouse", 
+            "horaires": {
+                "Lundi" : "",
+                "Mardi" : "",
+                "Mercredi" : "",
+                "Jeudi" : "",
+                "Vendredi" : "",
+                "Samedi" : "",
+                "Dimanche" : ""
+            },
+            "commentaire": ""
+        }
+    }, {
+        "type": "Feature",
+        "id": 0,
+        "geometry": {
+            "type": "Point",
+            "coordinates": [1.4559, 43.6007]
+        },
+        "properties":
+        {
+            "id": "thedanu",
+            "libelle": "The Danu",
+            "genre": "Bar",
+            "sousgenre": ["Pub"],
+            "latitude": "43.6007",
+            "longitude": "1.4559",
+            "adresse": "9 Rue du pont Guilhemery, 31000 Toulouse", 
+            "horaires": {
+                "Lundi" : "",
+                "Mardi" : "",
+                "Mercredi" : "",
+                "Jeudi" : "",
+                "Vendredi" : "",
+                "Samedi" : "",
+                "Dimanche" : ""
+            },
+            "commentaire": ""
+        }
     }]
 }
