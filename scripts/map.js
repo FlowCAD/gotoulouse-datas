@@ -28,71 +28,18 @@ var grayscale = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
 
 // Styles
 var alertMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-exclamation', prefix: 'fa', color: 'orange', iconColor: 'white'}),
-    workMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-briefcase', prefix: 'fa', color: 'darkblue', iconColor: 'white'}),
     homeMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-home', prefix: 'fa', color: 'green', iconColor: 'white'}),
-    transportMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-subway', prefix: 'fa', color: 'blue', iconColor: 'white'});
+    transportMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-subway', prefix: 'fa', color: 'blue', iconColor: 'white'}),
+    workMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-briefcase', prefix: 'fa', color: 'darkblue', iconColor: 'white'}),
+    shopMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-shopping-basket', prefix: 'fa', color: 'green', iconColor: 'white'}),
+    restoMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-cutlery', prefix: 'fa', color: 'purple', iconColor: 'white'}),
+    coffeeMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-coffee', prefix: 'fa', color: 'cadetblue', iconColor: 'white'}),
+    barMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-beer', prefix: 'fa', color: 'darkred', iconColor: 'white'}),
+    clubMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-glass', prefix: 'fa', color: 'red', iconColor: 'white'});
 
-var /*zonesFinesStyle = {"weight": 2, "color": "#ff7800", "opacity": 1, fillColor: '#ff7800', fillOpacity: 0.4},*/
-    zonesLargesStyle = {"weight": 1, "color": "#0000FF", "opacity": 1, fillColor: '#0000FF', fillOpacity: 0.25},
-    polygonStyle = {"weight": 1, "color": 'rgb(52, 196, 85)', "opacity": 1, fillColor: 'rgb(255, 255, 255)', fillOpacity: 0.15};
-
-// Markers
-var spotsMarker = L.marker([43.6, 1.44], {icon: homeMarkerSymbol}).bindPopup("<b>Coucou</b><br />Test");
+var polygonStyle = {"weight": 1, "color": 'rgb(52, 196, 85)', "opacity": 1, fillColor: 'rgb(255, 255, 255)', fillOpacity: 0.15};
 
 // JSONs
-/*var zonesLargesTLSJson = L.geoJson(
-    zonesLargesTLS,
-    {
-        style: zonesLargesStyle,
-        onEachFeature: function (feature, layer) {
-            layer.bindPopup("<b> Quartier : " + feature.properties.libelle_du + "</b>");
-        }
-    }
-);*/
-var datasJson = L.geoJson(
-    datas,
-    {
-        style: alertMarkerSymbol,
-        onEachFeature: function (feature, layer) {
-            layer.bindPopup("<b>" + feature.properties.libelle + "</b><br />" + feature.properties.genre + "<br />" + feature.properties.sousgenre);
-        }
-    }
-)
-// geoLayer = L.geoJson(json, {
-
-//     onEachFeature: function(feature, layer) {
-
-//       var popupText = "<b>Magnitude:</b> " + feature.properties.mag +
-//         "<br><b>Location:</b> " + feature.properties.place +
-//         "<br><a href='" + feature.properties.url + "'>More info</a>";
-
-//       layer.bindPopup(popupText, {
-//         closeButton: true,
-//         offset: L.point(0, -20)
-//       });
-//       layer.on('click', function() {
-//         layer.openPopup();
-//       });
-//     },
-
-//     pointToLayer: function(feature, latlng) {
-//     var mag = feature.properties.mag;
-//     var marker;
-    
-//     if (mag >= 4.0) {
-//         marker = new L.marker(latlng, {icon: L.AwesomeMarkers.icon({icon: 'cog', prefix: 'glyphicon',markerColor: 'cadetblue'}) }); 
-//       }
-//       else if (mag >= 3.0) {
-//         marker = new L.marker(latlng, {icon: L.AwesomeMarkers.icon({icon: 'coffee', prefix: 'glyphicon',markerColor: 'black'}) });
-//       } else if (mag >= 2.0) {
-//         marker = new L.marker(latlng, {icon: L.AwesomeMarkers.icon({icon: 'spinner', markerColor: 'red', prefix: 'fa', spin:true}) });
-//       } else {
-//         marker = new L.marker(latlng, {icon: L.AwesomeMarkers.icon({icon: 'star', prefix: 'glyphicon',markerColor: 'orange'}) });
-//       }
-//     return marker;
-//     }
-//   }).addTo(map);
-// });
 var datasJson = L.geoJson(datas, {
     onEachFeature: function (feature, layer) {
         var popupText = "<b>" + feature.properties.libelle + "</b><br />" + feature.properties.genre + "<br />" + feature.properties.sousgenre;
@@ -108,7 +55,17 @@ var datasJson = L.geoJson(datas, {
         var genre = feature.properties.genre;
         var marker;
         if (genre == "Magasin") {
-            marker = new L.marker(latlng, {icon: homeMarkerSymbol});
+            marker = new L.marker(latlng, {icon: shopMarkerSymbol});
+        } else if (genre == "Restaurant") {
+            marker = new L.marker(latlng, {icon: restoMarkerSymbol});
+        } else if (genre == "WorkPlace") {
+            marker = new L.marker(latlng, {icon: workMarkerSymbol});
+        } else if (genre == "Café") {
+            marker = new L.marker(latlng, {icon: coffeeMarkerSymbol});
+        } else if (genre == "Bar") {
+            marker = new L.marker(latlng, {icon: barMarkerSymbol});
+        } else if (genre == "Boite") {
+            marker = new L.marker(latlng, {icon: clubMarkerSymbol});
         } else {
             marker = new L.marker(latlng, {icon: alertMarkerSymbol});
         }
@@ -120,7 +77,7 @@ var datasJson = L.geoJson(datas, {
 //-------------------------------------MAP INITIALIZATION-------------------------------------//
 var initParam = function () {
     datasJson.addTo(mymap);
-    streets.addTo(mymap);
+    osm.addTo(mymap);
 };
 
 var checkForUrlTransmission = function () {
@@ -132,7 +89,7 @@ var checkForUrlTransmission = function () {
     if (!myUrlRegexDev.test(myCurrentUrl) && !myUrlRegexProd.test(myCurrentUrl)) {
         paramURL = myUrlParamRegex.exec(myCurrentUrl);
         console.log("There are parameters in the URL : ", paramURL, "\nZoom : ", RegExp.$1, "\nLatitude : ", RegExp.$2, "\nLongitude : ", RegExp.$3);
-        L.marker([RegExp.$2, RegExp.$3], {icon: alertMarkerSymbol}).addTo(mymap).bindPopup("<h6>Position transmise</h6>").openPopup();
+        L.marker([RegExp.$2, RegExp.$3], {icon: alertMarkerSymbol}).addTo(mymap).bindPopup("<h6>Position transmise / Dernière position</h6>").openPopup();
     }
 };
 
@@ -173,8 +130,7 @@ var baseMaps = {
 
 // Layers for control
 var overlayMaps = {
-    "Mes Spots": datasJson,
-    "TEST" : spotsMarker
+    "Mes Spots": datasJson
 };
 
 // Controler
