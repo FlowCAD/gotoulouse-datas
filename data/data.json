@@ -131,5 +131,43 @@
       "Dimanche" : "Fermé"
     },
     "commentaire": ""
+  },
+  {
+    "id": "biergarten",
+    "libelle": "Le Biergarten",
+    "type": "Bar",
+    "sous-type": ["Bar Allemand, Guinguette"],
+    "latitude": "43.5885, ",
+    "longitude": "1.4464",
+    "adresse": "60 Grande Rue Saint-Michel, 31400 Toulouse", 
+    "horaires": {
+      "Lundi" : "",
+      "Mardi" : "",
+      "Mercredi" : "",
+      "Jeudi" : "",
+      "Vendredi" : "",
+      "Samedi" : "",
+      "Dimanche" : ""
+    },
+    "commentaire": "Terrasse posay"
+  },
+  {
+    "id": "canailleclub",
+    "libelle": "Le Canaille Club",
+    "type": "Bar",
+    "sous-type": ["Bar, Guinguette"],
+    "latitude": "43.5866",
+    "longitude": "1.4442",
+    "adresse": "41 Rue Achille Viadieu, 31400 Toulouse", 
+    "horaires": {
+      "Lundi" : "",
+      "Mardi" : "",
+      "Mercredi" : "",
+      "Jeudi" : "",
+      "Vendredi" : "",
+      "Samedi" : "",
+      "Dimanche" : ""
+    },
+    "commentaire": "Terrasse posay"
   }
 ]
