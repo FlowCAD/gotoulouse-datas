@@ -398,5 +398,140 @@ var datas = {
             },
             "commentaire": ""
         }
+    }, {
+        "type": "Feature",
+        "id": 0,
+        "geometry": {
+            "type": "Point",
+            "coordinates": [1.4541, 43.6028]
+        },
+        "properties":
+        {
+            "id": "aupoeledelabete",
+            "libelle": "Au Poêle de la Bête",
+            "genre": "Bar",
+            "sousgenre": ["Brasserie"],
+            "latitude": "43.6028",
+            "longitude": "1.4541",
+            "adresse": "56 Rue d'Aubuisson, 31000 Toulouse", 
+            "horaires": {
+                "Lundi" : "",
+                "Mardi" : "",
+                "Mercredi" : "",
+                "Jeudi" : "",
+                "Vendredi" : "",
+                "Samedi" : "",
+                "Dimanche" : ""
+            },
+            "commentaire": ""
+        }
+    }, {
+        "type": "Feature",
+        "id": 0,
+        "geometry": {
+            "type": "Point",
+            "coordinates": [1.4537, 43.6072]
+        },
+        "properties":
+        {
+            "id": "lamecaniquedesfluides",
+            "libelle": "La Mécanique des Fluides",
+            "genre": "Bar",
+            "sousgenre": ["Brasserie"],
+            "latitude": "43.6072",
+            "longitude": "1.4537",
+            "adresse": "1 place Riquet, 31000 Toulouse", 
+            "horaires": {
+                "Lundi" : "",
+                "Mardi" : "",
+                "Mercredi" : "",
+                "Jeudi" : "",
+                "Vendredi" : "",
+                "Samedi" : "",
+                "Dimanche" : ""
+            },
+            "commentaire": ""
+        }
+    }, {
+        "type": "Feature",
+        "id": 0,
+        "geometry": {
+            "type": "Point",
+            "coordinates": [1.4547, 43.6049]
+        },
+        "properties":
+        {
+            "id": "barlautruche",
+            "libelle": "Bar L'Autruche - Brasserie Du Bec",
+            "genre": "Bar",
+            "sousgenre": ["Brasserie"],
+            "latitude": "43.6049",
+            "longitude": "1.4547",
+            "adresse": "1 Rue André Mercadier, 31000 Toulouse", 
+            "horaires": {
+                "Lundi" : "",
+                "Mardi" : "",
+                "Mercredi" : "",
+                "Jeudi" : "",
+                "Vendredi" : "",
+                "Samedi" : "",
+                "Dimanche" : ""
+            },
+            "commentaire": ""
+        }
+    }, {
+        "type": "Feature",
+        "id": 0,
+        "geometry": {
+            "type": "Point",
+            "coordinates": [1.4540, 43.6050]
+        },
+        "properties":
+        {
+            "id": "lheuredusinge",
+            "libelle": "L'heure du singe",
+            "genre": "Bar",
+            "sousgenre": ["Bar à cocktail"],
+            "latitude": "43.6050",
+            "longitude": "1.4540",
+            "adresse": "59 Rue Riquet, 31000 Toulouse", 
+            "horaires": {
+                "Lundi" : "",
+                "Mardi" : "",
+                "Mercredi" : "",
+                "Jeudi" : "",
+                "Vendredi" : "",
+                "Samedi" : "",
+                "Dimanche" : ""
+            },
+            "commentaire": ""
+        }
+    }, {
+        "type": "Feature",
+        "id": 0,
+        "geometry": {
+            "type": "Point",
+            "coordinates": [1.4512, 43.6070]
+        },
+        "properties":
+        {
+            "id": "deliriumcafe",
+            "libelle": "Délirium Café",
+            "genre": "Bar",
+            "sousgenre": ["Brasserie"],
+            "latitude": "43.6070",
+            "longitude": "1.4512",
+            "adresse": "54 Allée Jean Jaurès, 31000 Toulouse", 
+            "horaires": {
+                "Lundi" : "",
+                "Mardi" : "",
+                "Mercredi" : "",
+                "Jeudi" : "",
+                "Vendredi" : "",
+                "Samedi" : "",
+                "Dimanche" : ""
+            },
+            "commentaire": "Attention la bière est forte ! Vraiment !!"
+        }
     }]
 }
