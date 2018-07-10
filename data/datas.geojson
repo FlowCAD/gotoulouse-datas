@@ -1019,5 +1019,59 @@ var datas = {
             },
             "commentaire": "07 68 25 18 30"
         }
+    },{
+        "type": "Feature",
+        "id": 0,
+        "geometry": {
+            "type": "Point",
+            "coordinates": [1.422, 43.597]
+        },
+        "properties":
+        {
+            "id": "lamourapizza",
+            "libelle": "L'Amoura Pizza",
+            "genre": "Restaurant",
+            "sousgenre": ["Pizzeria"],
+            "latitude": "43.597",
+            "longitude": "1.422",
+            "adresse": "20 Avenue de Grande Bretagne, 31300 Toulouse", 
+            "horaires": {
+                "Lundi" : "",
+                "Mardi" : "18:00–23:30",
+                "Mercredi" : "18:00–23:30",
+                "Jeudi" : "18:00–23:30",
+                "Vendredi" : "18:00–23:30",
+                "Samedi" : "18:00–23:30",
+                "Dimanche" : "18:00–23:30"
+            },
+            "commentaire": ""
+        }
+    },{
+        "type": "Feature",
+        "id": 0,
+        "geometry": {
+            "type": "Point",
+            "coordinates": [1.442, 43.6028]
+        },
+        "properties":
+        {
+            "id": "fornogusto",
+            "libelle": "Forno Gusto",
+            "genre": "Restaurant",
+            "sousgenre": ["Pizzeria"],
+            "latitude": "43.6028",
+            "longitude": "1.442",
+            "adresse": " 21 Rue Sainte-Ursule, 31000 Toulouse", 
+            "horaires": {
+                "Lundi" : "",
+                "Mardi" : "",
+                "Mercredi" : "",
+                "Jeudi" : "",
+                "Vendredi" : "",
+                "Samedi" : "",
+                "Dimanche" : ""
+            },
+            "commentaire": ""
+        }
     }]
 }
