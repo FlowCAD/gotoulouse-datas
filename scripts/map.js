@@ -19,12 +19,14 @@ var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</
         'Imagery © <a href="http://mapbox.com">Mapbox</a>',
     mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZmxvcmlhbmNhZG96IiwiYSI6ImNqMGkzN3ZzYzAwM3MzMm80MDZ6eGQ2bmwifQ.BMmvDcBnXoWT8waOnIKNBg',
     osmAttr = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-    osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    osmHotURL = 'http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png';
 
 var grayscale = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
     satellite = L.tileLayer(mbUrl, {id: 'mapbox.satellite', attribution: mbAttr}),
     streets = L.tileLayer(mbUrl, {id: 'mapbox.streets', attribution: mbAttr}),
-    osm = L.tileLayer(osmUrl, {attribution: osmAttr});
+    osm = L.tileLayer(osmUrl, {attribution: osmAttr}),
+    osmHot = L.tileLayer(osmHotURL, {attribution: osmAttr});
 
 // Styles
 var alertMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-exclamation', prefix: 'fa', color: 'orange', iconColor: 'white'}),
@@ -126,7 +128,8 @@ var baseMaps = {
     "OpenStreetMap": osm,
     "Plan gris": grayscale,
     "Plan": streets,
-    "Satellite": satellite
+    "Satellite": satellite,
+    "OSM Hot": osmHot
 };
 
 // Layers for control
