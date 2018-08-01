@@ -707,7 +707,7 @@ var datas = {
             "id": "lespassionnés",
             "libelle": "Les passionnés",
             "genre": "Restaurant",
-            "sousgenre": ["Cave à croquer, Dégustation vin, Cours d'oenologie, Tapas, Cave à vins"],
+            "sousgenre": ["Cave à croquer", "Dégustation vin", "Cours d'oenologie", "Tapas", "Cave à vins"],
             "latitude": "43.6061",
             "longitude": "1.4300",
             "adresse": "31 bis Allée de Brienne, 31000 Toulouse", 
@@ -842,7 +842,7 @@ var datas = {
             "id": "lesept",
             "libelle": "Le Sept",
             "genre": "Restaurant",
-            "sousgenre": ["Gastronomique, 1 étoile Michelin"],
+            "sousgenre": ["Gastronomique"],
             "latitude": "43.6088",
             "longitude": "1.4415",
             "adresse": "7 Place Saint-Sernin, 31000 Toulouse", 
@@ -855,7 +855,7 @@ var datas = {
                 "Samedi" : "20:00–21:45",
                 "Dimanche" : ""
             },
-            "commentaire": "05 62 30 05 30, resto cher !"
+            "commentaire": "05 62 30 05 30, resto cher ! 1 étoile Michelin"
         }
     },{
         "type": "Feature",
@@ -923,7 +923,7 @@ var datas = {
             "id": "lepiegealoups",
             "libelle": "Le piège à loups",
             "genre": "Bar",
-            "sousgenre": ["Tapas, Bar à vin"],
+            "sousgenre": ["Tapas", "Bar à vin"],
             "latitude": "43.5997",
             "longitude": "1.4452",
             "adresse": "3 Rue des Tourneurs, 31000 Toulouse", 
@@ -977,7 +977,7 @@ var datas = {
             "id": "les2soeurshoang",
             "libelle": "Les 2 Soeurs HOANG",
             "genre": "Restaurant",
-            "sousgenre": ["Vietnamien, Bo bun, Phô"],
+            "sousgenre": ["Vietnamien", "Bo bun", "Phô"],
             "latitude": "43.5906",
             "longitude": "1.4451",
             "adresse": "141 Grande Rue Saint-Michel, 31400 Toulouse", 
@@ -1072,6 +1072,33 @@ var datas = {
                 "Dimanche" : ""
             },
             "commentaire": ""
+        }
+    },{
+        "type": "Feature",
+        "id": 0,
+        "geometry": {
+            "type": "Point",
+            "coordinates": [1.445, 43.5915]
+        },
+        "properties":
+        {
+            "id": "labreuvoir",
+            "libelle": "L'abreuvoir cave à manger",
+            "genre": "Bar",
+            "sousgenre": ["Bar à vin", "Tapas"],
+            "latitude": "43.5915",
+            "longitude": "1.445",
+            "adresse": "150 Grande Rue Saint-Michel, 31400 Toulouse", 
+            "horaires": {
+                "Lundi" : "",
+                "Mardi" : "",
+                "Mercredi" : "",
+                "Jeudi" : "",
+                "Vendredi" : "",
+                "Samedi" : "",
+                "Dimanche" : ""
+            },
+            "commentaire": "Excellent rapport qualité prix"
         }
     }]
 }
