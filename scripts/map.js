@@ -43,12 +43,12 @@ var alertMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-exclamation', prefi
 var polygonStyle = {"weight": 1, "color": 'rgb(52, 196, 85)', "opacity": 1, fillColor: 'rgb(255, 255, 255)', fillOpacity: 0.15};
 
 // JSONs
+var markers = L.markerClusterGroup();
 var datasJson = L.geoJson(datas, {
     onEachFeature: function (feature, layer) {
         var popupText = "<b>" + feature.properties.libelle + "</b><br />" + feature.properties.genre + "<br />" + feature.properties.sousgenre;
         layer.bindPopup(popupText, {
-            closeButton: true,
-            offset: L.point(0, -20)
+            closeButton: true
         });
         layer.on('click', function() {
             layer.openPopup();
@@ -72,6 +72,7 @@ var datasJson = L.geoJson(datas, {
         } else {
             marker = new L.marker(latlng, {icon: alertMarkerSymbol});
         }
+        markers.addLayer(marker);
         return marker;
     }
 });
@@ -79,8 +80,8 @@ var datasJson = L.geoJson(datas, {
 //--------------------------------------------------------------------------------------------//
 //-------------------------------------MAP INITIALIZATION-------------------------------------//
 var initParam = function () {
-    datasJson.addTo(mymap);
-    osm.addTo(mymap);
+    markers.addTo(mymap);
+    osmHot.addTo(mymap);
 };
 
 var checkForUrlTransmission = function () {
@@ -119,6 +120,7 @@ mymap.on('locationfound', onLocationFound);
 mymap.on('locationerror', onLocationError);
 mymap.locate({setView: true, maxZoom: 16}).setMaxBounds(bounds);
 mymap.options.minZoom = 12;
+mymap.options.maxZoom = 18;
 
 // Hash the map (zoom/lon/lat)
 new L.Hash(mymap);
@@ -134,7 +136,7 @@ var baseMaps = {
 
 // Layers for control
 var overlayMaps = {
-    "Mes Spots": datasJson
+    "Mes Spots": markers
 };
 
 // Controler
