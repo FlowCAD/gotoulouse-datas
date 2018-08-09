@@ -33,6 +33,7 @@ var alertMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-exclamation', prefi
     homeMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-home', prefix: 'fa', color: 'green', iconColor: 'white'}),
     hereMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-street-view', prefix: 'fa', color: 'orange', iconColor: 'white'}),
     transportMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-subway', prefix: 'fa', color: 'blue', iconColor: 'white'}),
+    hypotheticalTransportMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-subway', prefix: 'fa', color: 'darkred', iconColor: 'white'}),
     workMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-briefcase', prefix: 'fa', color: 'darkblue', iconColor: 'white'}),
     shopMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-shopping-basket', prefix: 'fa', color: 'green', iconColor: 'white'}),
     restoMarkerSymbol = L.AwesomeMarkers.icon({icon: ' fa fa-cutlery', prefix: 'fa', color: 'purple', iconColor: 'white'}),
@@ -77,6 +78,8 @@ var datasJson = L.geoJson(datas, {
     }
 });
 
+L.marker([43.5940, 1.4657], {icon: hypotheticalTransportMarkerSymbol}).addTo(mymap).bindPopup('Futur métro 1');
+L.marker([43.5918, 1.4789], {icon: hypotheticalTransportMarkerSymbol}).addTo(mymap).bindPopup('Futur métro 2');
 //--------------------------------------------------------------------------------------------//
 //-------------------------------------MAP INITIALIZATION-------------------------------------//
 var initParam = function () {
