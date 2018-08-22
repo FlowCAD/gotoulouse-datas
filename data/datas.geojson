@@ -1100,5 +1100,59 @@ var datas = {
             },
             "commentaire": "Excellent rapport qualité prix"
         }
+    },{
+        "type": "Feature",
+        "id": 0,
+        "geometry": {
+            "type": "Point",
+            "coordinates": [1.4409, 43.602]
+        },
+        "properties":
+        {
+            "id": "laboca",
+            "libelle": "La Boca",
+            "genre": "Bar",
+            "sousgenre": ["Tapas"],
+            "latitude": "43.602",
+            "longitude": "1.4409",
+            "adresse": "45 Rue Peyrolières, 31000 Toulouse", 
+            "horaires": {
+                "Lundi" : "",
+                "Mardi" : "",
+                "Mercredi" : "",
+                "Jeudi" : "",
+                "Vendredi" : "",
+                "Samedi" : "",
+                "Dimanche" : ""
+            },
+            "commentaire": ""
+        }
+    },{
+        "type": "Feature",
+        "id": 0,
+        "geometry": {
+            "type": "Point",
+            "coordinates": [1.4485, 43.6043]
+        },
+        "properties":
+        {
+            "id": "lesboulistes",
+            "libelle": "Les Boulistes",
+            "genre": "Bar",
+            "sousgenre": ["Tapas"],
+            "latitude": "43.6043",
+            "longitude": "1.4485",
+            "adresse": "4-5 Rue Labeda, 31000 Toulouse", 
+            "horaires": {
+                "Lundi" : "",
+                "Mardi" : "",
+                "Mercredi" : "",
+                "Jeudi" : "",
+                "Vendredi" : "",
+                "Samedi" : "",
+                "Dimanche" : ""
+            },
+            "commentaire": ""
+        }
     }]
 }
